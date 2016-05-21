@@ -1,0 +1,40 @@
+{% extends "game/layout.html" %}
+
+{% block title %}
+GAME
+{% endblock %}
+
+{% block content %}
+<div id="Wrap">
+	<div class="left atc">
+		<div id="me" class="box">당신은<br><span class="PO">1P </span>입니다</div>
+		<div id="rule" class="box"> <span class="mark">?</span> 게임 방법</div>
+	</div>
+	<div class="board atc">
+		<table>
+			<tr>
+				<td><div class="flip"></div></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><div></div></td>
+			</tr>
+			<tr>
+				<td></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td></td><td></td><td></td><td></td><td></td>
+			</tr>
+			<tr>
+				<td></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td></td>
+			</tr>
+			<tr>
+				<td><div class="flip"></div></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><div></div></td>
+			</tr>
+		</table>
+	</div>
+	<div class="right atc">
+		<div id="turn" class="box"><span class="PT">2P</span> 차례</div>
+		<div id="check"></div>
+	</div>
+</div>
+{% endblock %}
