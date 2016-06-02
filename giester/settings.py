@@ -55,7 +55,7 @@ ROOT_URLCONF = 'giester.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["/giester/game/templates",],
+        'DIRS': ["./game/templates",],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

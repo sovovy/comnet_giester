@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^set', views.set),
     url(r'^setChk', views.setChk),
     url(r'^game', views.game),
-    url(r'^wait', views.wait)
+    url(r'^wait', views.wait),
+    url(r'^deal', views.deal)
 ]
