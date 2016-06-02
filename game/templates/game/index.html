@@ -1,13 +1,21 @@
 {% extends "game/layout.html" %}
 
 {% block title %}
-HOME
+홈
 {% endblock %}
 
 {% block content %}
 <div id="loginWrap">
-	<form action="game">
+	<form action="init" method="post">{% csrf_token %} 
+		<input id="nick" name="nick" type="textarea">
 		<input id="loginBtn" type="submit" value="들어가기">
 	</form>
 </div>
+<script>
+	$(function(){
+		$('#loginBtn').on('click',function(){
+			document.cookie = "nickname="+$('#nick').val()+";";
+		});
+	});
+</script>
 {% endblock %}

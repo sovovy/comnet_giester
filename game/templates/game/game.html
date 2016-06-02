@@ -1,14 +1,20 @@
-﻿{% extends "game/layout.html" %}
+{% extends "game/layout.html" %}
 
 {% block title %}
-TEST
+게임
 {% endblock %}
 
 {% block content %}
 <div id="Wrap">
 	<div class="left atc">
-		<div id="me" class="box">당신은<br><span class="PO">1P </span>입니다</div>
-		<div id="rule" class="box"> <span class="mark">?</span> test</div>
+		<div id="me" class="box">당신은<br>
+			{% ifequal whoami "1P" %}
+				<span class="PO">1P </span>입니다
+			{% else %}
+				<span class="PT">2P </span>입니다
+			{% endifequal %}
+		</div>
+		<div id="rule" class="box"> <span class="mark">?</span> 게임 방법</div>
 	</div>
 	<div class="board atc">
 		<table>
