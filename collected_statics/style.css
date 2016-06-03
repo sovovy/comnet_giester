@@ -17,7 +17,7 @@ body{
 	justify-content: center;
 	align-items: center;
 	vertical-align: middle;
-	background: url("http://songay.dothome.co.kr/comnet/intro-bg.jpg") no-repeat;
+	background: url("./intro-bg.jpg") no-repeat;
 	background-size: cover;
 }
 #loginWrap form{
@@ -26,7 +26,8 @@ body{
 input#nick{
 	text-align: center;
 	margin: 10px;
-	padding: 10px 10px;
+	padding: 8px 8px;
+	font-size: 11pt;
 }
 #loginBtn{
 	color: white;
@@ -113,24 +114,24 @@ td{
 	background-color: #8abad4; /*939393*/
 }
 td img{
-	background-image: url("http://songay.dothome.co.kr/comnet/exit.png");
+	background-image: url("./exit.png");
 	background-size: contain;
 	width: 5vw;
 	height: 5vw;
 }
 
 td div{
-	background-image: url("http://songay.dothome.co.kr/comnet/none.png");
+	background-image: url("./none.png");
 	background-size: contain;
 	width: 5vw;
 	height: 5vw;
 	margin: auto;
 }
 .blue{
-	background-image: url("http://songay.dothome.co.kr/comnet/blue.png");
+	background-image: url("./blue.png");
 }
 .red{
-	background-image: url("http://songay.dothome.co.kr/comnet/red.png");
+	background-image: url("./red.png");
 }
 #check{
 	background-size: contain;

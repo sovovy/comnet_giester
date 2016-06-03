@@ -20,7 +20,7 @@
 		<table>
 			<!-- 넘겨받은 board값 잘 배치하기 [미완] -->
 			<tr>
-				<td><img class='flip' src="http://songay.dothome.co.kr/comnet/exit.png"></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><img src="http://songay.dothome.co.kr/comnet/exit.png"></td>
+				<td><img class='flip' src="./assets/exit.png"></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><img src="./assets/exit.png"></td>
 			</tr>
 			<tr>
 				<td></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td></td>
@@ -35,7 +35,7 @@
 				<td></td><td><div class='blue my' name='0'></div></td><td><div class='blue my' name='1'></div></td><td><div class='blue my' name='2'></div></td><td><div class='blue my' name='3'></div></td><td></td>
 			</tr>
 			<tr>
-				<td><img class='flip' src="http://songay.dothome.co.kr/comnet/exit.png"></td><td><div class='red my' name='4'></div></td><td><div class='red my' name='5'></div></td><td><div class='red my' name='6'></div></td><td><div class='red my' name='7'></div></td><td><img src="http://songay.dothome.co.kr/comnet/exit.png"></td>
+				<td><img class='flip' src="./assets/exit.png"></td><td><div class='red my' name='4'></div></td><td><div class='red my' name='5'></div></td><td><div class='red my' name='6'></div></td><td><div class='red my' name='7'></div></td><td><img src="./assets/exit.png"></td>
 			</tr>
 		</table>
 	</div>
@@ -46,11 +46,11 @@
 				<input id='x' name='x' type='hidden' value=''>
 				<input id='y' name='y' type='hidden' value=''>
 				<input id='vec' name='vec' type='hidden' value=''>
-				<input id="check" src='http://songay.dothome.co.kr/comnet/check.png' type='image'>
+				<input id="check" src='./assets/check.png' type='image'>
 			</form>
 		{% else %}
 			<form action='game' method='POST'>{% csrf_token %}
-				<input id="check" src='http://songay.dothome.co.kr/comnet/refresh.png' type='image'>
+				<input id="check" src='./assets/refresh.png' type='image'>
 			</form>
 		{% endif %}
 	</div>
@@ -58,7 +58,7 @@
 <script>
 	$(function(){
 		$('.my').on('click',function(){
-
+			// 패 누르면 화살표 뜨고 좌표 저장
 			// $('#x').val();
 			// $('#y').val();
 		});

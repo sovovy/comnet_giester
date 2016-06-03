@@ -1,11 +1,12 @@
+{% load staticfiles %}
 <!DOCTYPE HTML>
 <html>
  <head>
   <title> 가이스터 :: {% block title %}{% endblock %} </title>
   {% load staticfiles %}
-  <link rel="stylesheet" type="text/css" href="http://songay.dothome.co.kr/comnet/style.css">
+  <link rel="stylesheet" type="text/css" href="./assets/style.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-  <link rel="shortcut icon" href="http://songay.dothome.co.kr/comnet/favicon.ico">
+  <link rel="shortcut icon" href="./assets/favicon.ico">
  </head>
  <body>
  {% block content %}{% endblock %}

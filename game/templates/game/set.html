@@ -9,9 +9,9 @@
 	<div class="left atc">
 		<div id="me" class="box">당신은<br>
 			{% if whoami == "1P" %}
-				<span class="PO">1P </span>입니다
+				<span class="1P">1P </span>입니다
 			{% else %}
-				<span class="PT">2P </span>입니다
+				<span class="2P">2P </span>입니다
 			{% endif %}
 		</div>
 		<div id="rule" class="box"> <span class="mark">?</span> 게임 방법</div>
@@ -19,7 +19,7 @@
 	<div class="board atc">
 		<table>
 			<tr>
-				<td><img class='flip' src="http://songay.dothome.co.kr/comnet/exit.png"></td><td></td><td></td><td></td><td></td><td><img src="http://songay.dothome.co.kr/comnet/exit.png"></td>
+				<td><img class='flip' src="./assets/exit.png"></td><td></td><td></td><td></td><td></td><td><img src="./assets/exit.png"></td>
 			</tr>
 			<tr>
 				<td></td><td></td><td></td><td></td><td></td><td></td>
@@ -34,7 +34,7 @@
 				<td></td><td><div class='blue' name='0'></div></td><td><div class='blue' name='1'></div></td><td><div class='blue' name='2'></div></td><td><div class='blue' name='3'></div></td><td></td>
 			</tr>
 			<tr>
-				<td><img class='flip' src="http://songay.dothome.co.kr/comnet/exit.png"></td><td><div class='red' name='4'></div></td><td><div class='red' name='5'></div></td><td><div class='red' name='6'></div></td><td><div class='red' name='7'></div></td><td><img src="http://songay.dothome.co.kr/comnet/exit.png"></td>
+				<td><img class='flip' src="./assets/exit.png"></td><td><div class='red' name='4'></div></td><td><div class='red' name='5'></div></td><td><div class='red' name='6'></div></td><td><div class='red' name='7'></div></td><td><img src="./assets/exit.png"></td>
 			</tr>
 		</table>
 	</div>
@@ -42,7 +42,7 @@
 		<div id="turn" class="box">패 셋팅</div>
 		<form action='setChk' method='POST'>{% csrf_token %} 
 			<input id='hand' name='hand' type='hidden' value='00001111'>
-			<input id="check" src='http://songay.dothome.co.kr/comnet/check.png' type='image'>
+			<input id="check" src='./assets/check.png' type='image'>
 		</form>
 	</div>
 </div>
