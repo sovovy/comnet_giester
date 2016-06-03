@@ -8,21 +8,22 @@
 <div id="Wrap">
 	<div class="left atc">
 		<div id="me" class="box">당신은<br>
-			{% ifequal whoami "1P" %}
-				<span class="PO">1P </span>입니다
+			{% if whoami == "1P" %}
+				<span class="1P">1P </span>입니다
 			{% else %}
-				<span class="PT">2P </span>입니다
-			{% endifequal %}
+				<span class="2P">2P </span>입니다
+			{% endif %}
 		</div>
 		<div id="rule" class="box"> <span class="mark">?</span> 게임 방법</div>
 	</div>
 	<div class="board atc">
 		<table>
+			<!-- 넘겨받은 board값 잘 배치하기 [미완] -->
 			<tr>
-				<td><div class="flip"></div></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><div></div></td>
+				<td><img class='flip' src="http://songay.dothome.co.kr/comnet/exit.png"></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td><img src="http://songay.dothome.co.kr/comnet/exit.png"></td>
 			</tr>
 			<tr>
-				<td></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td><input type="checkbox"/><label class="enemy"></label></td><td></td>
+				<td></td><td><div></div></td><td><div></div></td><td><div></div></td><td><div></div></td><td></td>
 			</tr>
 			<tr>
 				<td></td><td></td><td></td><td></td><td></td><td></td>
@@ -31,16 +32,36 @@
 				<td></td><td></td><td></td><td></td><td></td><td></td>
 			</tr>
 			<tr>
-				<td></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td></td>
+				<td></td><td><div class='blue my' name='0'></div></td><td><div class='blue my' name='1'></div></td><td><div class='blue my' name='2'></div></td><td><div class='blue my' name='3'></div></td><td></td>
 			</tr>
 			<tr>
-				<td><div class="flip"></div></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><input type="checkbox"/><label class="mine"></label></td><td><div></div></td>
+				<td><img class='flip' src="http://songay.dothome.co.kr/comnet/exit.png"></td><td><div class='red my' name='4'></div></td><td><div class='red my' name='5'></div></td><td><div class='red my' name='6'></div></td><td><div class='red my' name='7'></div></td><td><img src="http://songay.dothome.co.kr/comnet/exit.png"></td>
 			</tr>
 		</table>
 	</div>
 	<div class="right atc">
-		<div id="turn" class="box"><span class="PT">2P</span> 차례</div>
-		<div id="check"></div>
+		<div id="turn" class="box"><span class='{{ turn }}'>{{ turn }}</span> 차례</div>
+		{% if turn == whoami %}
+			<form action='deal' method='POST'>{% csrf_token %} 
+				<input id='x' name='x' type='hidden' value=''>
+				<input id='y' name='y' type='hidden' value=''>
+				<input id='vec' name='vec' type='hidden' value=''>
+				<input id="check" src='http://songay.dothome.co.kr/comnet/check.png' type='image'>
+			</form>
+		{% else %}
+			<form action='game' method='POST'>{% csrf_token %}
+				<input id="check" src='http://songay.dothome.co.kr/comnet/refresh.png' type='image'>
+			</form>
+		{% endif %}
 	</div>
 </div>
+<script>
+	$(function(){
+		$('.my').on('click',function(){
+
+			// $('#x').val();
+			// $('#y').val();
+		});
+	});
+</script>
 {% endblock %}

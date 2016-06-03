@@ -8,18 +8,18 @@
 <div id="Wrap">
 	<div class="left atc">
 		<div id="me" class="box">당신은<br>
-			{% ifequal whoami "1P" %}
+			{% if whoami == "1P" %}
 				<span class="PO">1P </span>입니다
 			{% else %}
 				<span class="PT">2P </span>입니다
-			{% endifequal %}
+			{% endif %}
 		</div>
 		<div id="rule" class="box"> <span class="mark">?</span> 게임 방법</div>
 	</div>
 	<div class="board atc">
 		<table>
 			<tr>
-				<td><img src="http://songay.dothome.co.kr/comnet/exit.png"></td><td></td><td></td><td></td><td></td><td></td>
+				<td><img class='flip' src="http://songay.dothome.co.kr/comnet/exit.png"></td><td></td><td></td><td></td><td></td><td><img src="http://songay.dothome.co.kr/comnet/exit.png"></td>
 			</tr>
 			<tr>
 				<td></td><td></td><td></td><td></td><td></td><td></td>
@@ -34,7 +34,7 @@
 				<td></td><td><div class='blue' name='0'></div></td><td><div class='blue' name='1'></div></td><td><div class='blue' name='2'></div></td><td><div class='blue' name='3'></div></td><td></td>
 			</tr>
 			<tr>
-				<td></td><td><div class='red' name='4'></div></td><td><div class='red' name='5'></div></td><td><div class='red' name='6'></div></td><td><div class='red' name='7'></div></td><td></td>
+				<td><img class='flip' src="http://songay.dothome.co.kr/comnet/exit.png"></td><td><div class='red' name='4'></div></td><td><div class='red' name='5'></div></td><td><div class='red' name='6'></div></td><td><div class='red' name='7'></div></td><td><img src="http://songay.dothome.co.kr/comnet/exit.png"></td>
 			</tr>
 		</table>
 	</div>

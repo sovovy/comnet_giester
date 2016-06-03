@@ -76,11 +76,11 @@ input#nick{
 	text-align: center;
 	line-height: 50px;
 }
-.PO{
+.\31 P{
 	color: #375b87;
 	font-weight: 800;
 }
-.PT{
+.\32 P{
 	color: #a93232;
 	font-weight: 800;
 }
@@ -136,4 +136,13 @@ td div{
 	background-size: contain;
 	margin-top: 27vw;
 	width: 80px;
+}
+
+.flip{
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
 }

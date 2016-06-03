@@ -25,7 +25,7 @@ def rfsh(request):
 def set(request):
 	nickname = request.COOKIES['nick']
 	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
-	context = {'whoami':'1P'}
+	context = {'whoami':'1P','turn':'2P'}
 	return render(request, 'game/set.html', context)
 
 def setChk(request):
@@ -49,7 +49,8 @@ def game(request):
 	#	return render(request, 'game/game.html', context)
 
 	# 임시 render
-	return render(request, 'game/game.html')
+	context = {'whoami':'1P','turn':'2P'}
+	return render(request, 'game/game.html',context)
 
 
 
