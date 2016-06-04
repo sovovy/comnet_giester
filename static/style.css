@@ -147,3 +147,34 @@ td div{
     filter: FlipH;
     -ms-filter: "FlipH";
 }
+
+.ar_top{
+    width: 30px;
+    height: 18px;
+    background: url("./arrow-top.png") no-repeat;
+    background-size: contain;
+}
+
+.ar_right{
+    width: 18px;
+    height: 30px;
+	background: url("./arrow-right.png") no-repeat;
+	background-size: contain;
+}
+.ar_bottom{
+    width: 30px;
+    height: 18px;
+	background: url("./arrow-bottom.png") no-repeat;
+	background-size: contain;
+}
+.ar_left{
+    width: 18px;
+    height: 30px;
+	background: url("./arrow-left.png") no-repeat;
+	background-size: contain;
+}
+
+.arrow{
+	position: absolute;
+	visibility: hidden;	
+}

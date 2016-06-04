@@ -49,7 +49,8 @@ def game(request):
 	#	return render(request, 'game/game.html', context)
 
 	# 임시 render
-	context = {'whoami':'1P','turn':'2P'}
+	li=[[9,4,4,4,4,8],[0,3,3,3,3,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,1,1,1,1,0],[9,2,2,2,2,8]]
+	context = {'whoami':'1P','turn':'1P','board':li}
 	return render(request, 'game/game.html',context)
 
 
