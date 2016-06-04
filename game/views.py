@@ -11,7 +11,7 @@ def init(request):
 	return HttpResponseRedirect('/chkDB')
 
 def chkDB(request): # 게임을 시작할 수 있는 지
-	nickname = request.POST.get("nick")
+	nickname = request.COOKIES['nick']
 	# 임시 render
 	return HttpResponseRedirect('/rfsh')
 	# if 이 닉네임이 있는 DB row에 1P 2P란이 둘다 차있으면:
