@@ -1,17 +1,27 @@
 from django.shortcuts import render, render_to_response
 from django.template import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
+from .models import Player
+import datetime
 
 def index(request):
 	return render(request, 'game/index.html')
 
 def init(request):
 	nickname = request.POST.get("nick")
+	try:
+	player = Player.objects.get(pt=nickname)
+	player.save()
+except:
+	player = Player(po=nickname)
+	player.save()
 	#DB에 닉네임 올리기
 	return HttpResponseRedirect('/chkDB')
 
 def chkDB(request): # 게임을 시작할 수 있는 지
 	nickname = request.COOKIES['nick']
+	pl = Player.objects.filter(po = nickname)
+	pl2 = Player.objects.filter(pt = nickname)
 	# 임시 render
 	return HttpResponseRedirect('/rfsh')
 	# if 이 닉네임이 있는 DB row에 1P 2P란이 둘다 차있으면:
