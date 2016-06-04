@@ -10,11 +10,11 @@ def index(request):
 def init(request):
 	nickname = request.POST.get("nick")
 	try:
-	player = Player.objects.get(pt=nickname)
-	player.save()
-except:
-	player = Player(po=nickname)
-	player.save()
+		player = Player.objects.get(pt=nickname)
+		player.save()
+	except:
+		player = Player(po=nickname)
+		player.save()
 	#DB에 닉네임 올리기
 	return HttpResponseRedirect('/chkDB')
 
