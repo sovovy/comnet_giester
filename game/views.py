@@ -7,7 +7,7 @@ def index(request):
 
 def init(request):
 	nickname = request.POST.get("nick")
-	## 닉네임 db에 알맞은 곳에 넣기
+	#DB에 닉네임 올리기
 	return HttpResponseRedirect('/chkDB')
 
 def chkDB(request): # 게임을 시작할 수 있는 지
