@@ -127,10 +127,64 @@ def game(request):
 
 def deal(request):
 	nickname = request.COOKIES['nick']
-	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
-
-	x = request.POST.get("x")
-	y = request.POST.get("y")
+	x = request.POST.get("x") -1
+	y = request.POST.get("y") -1
 	vec = request.POST.get("vec")
+	li=request.POST.get("board")
+	win1p=False
+	win2p=False
+	count1 =0
+	count2 =0
+	count3 =0
+	count4 =0
+	## board에서 상대방칸에 9,8 에 파란말 있고 플레이어 턴이면 승리
 	
-	return render(request, 'game/wait.html')
+	## board 확인해서 1,2,3,4 숫자 카운트해서 승리판단 후 context 로 1pwin이나 2pwin 보냄
+	for i in range(0,6):
+		if 1 in li[i]:
+			count1 = count1 +1
+		if 2 in li[i]:
+			count2 = count2 +1
+		if 3 in li[i]:
+			count3 = count3 +1
+		if 4 in li[i]:
+			count4 = count4 +1
+
+	if count1 == 0:
+		win2p=True
+	if count2 == 0:
+		win1p=True
+	if count3 == 0:
+		win1p=True
+	if count4 == 0:
+		win2p=True
+
+	term=li[x][y]
+	li[x][y]=0
+	if vec == 1:
+		y=y-1
+		li[x][y]=term
+	if vec == 2:
+		x=x+1
+		li[x][y]=term
+	if vec == 3:
+		y=y+1
+		li[x][y]=term
+	if vec == 4:
+		x=x-1
+		li[x][y]=term
+
+	if win1p:
+		li=['1Pwin']
+	if win2p:
+		li=['2Pwin']
+
+	if Player.objects.filter(po = nickname).exists():
+		whoami="1P"
+	if Player.objects.filter(pt = nickname).exists():
+		whoami="2P"
+	context = {'whoami':whoami,'board':board}
+	## 승리 조건 ..
+	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
+	
+	return render(request, 'game/game.html', board)
