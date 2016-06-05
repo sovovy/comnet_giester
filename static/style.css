@@ -4,6 +4,7 @@
 body{
 	margin: 0 0;
 	height: 100vh;
+	background-color: #ffd571;
 }
 ::selection{
 	background-color: #ffd571;
@@ -111,7 +112,7 @@ td{
 	height: 6vw;
 	text-align: center;
 	vertical-align: middle;
-	background-color: #8abad4; /*939393*/
+	background-color: #8abad4;
 }
 td img{
 	background-image: url("./exit.png");
@@ -177,4 +178,25 @@ td div{
 .arrow{
 	position: absolute;
 	visibility: hidden;	
+}
+
+#set{
+	width: 50vw;
+	height: 5vw;
+	background-color: #222222;
+	position: fixed;
+	bottom: 0px;
+	left: 20vw;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 15px;
+	padding: 10px;
+	text-align: center;
+}
+#set div{
+	background-size: contain;
+	width: 5vw;
+	height: 5vw;
+	margin: auto;
+	display: inline-block;
+	margin: 0px 10px;
 }
