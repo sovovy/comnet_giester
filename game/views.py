@@ -52,7 +52,6 @@ def set(request):
 def setChk(request):
 	nickname = request.COOKIES['nick']
 	hand = request.POST.get("hand") # 00001111 이런 포맷을 가지는 사용자의 패의 정보
-
 	w = False #패가 정상적인지
 	cnt=0
 	for i in hand:
@@ -63,26 +62,37 @@ def setChk(request):
 
 	pl = Player.objects.filter(po = nickname)
 	pl2 = Player.objects.filter(pt = nickname)
-	if w==True:
+	if w == True:
 		if pl.exists():
+			pl = pl[0]
 			pl.board = pl.board[0:25] + hand[0:4] + pl.board[29:31] + hand[4:8] + pl.board[35:36]
-			if pl.turn == '01':
-				pl.turn = '11'
+			if pl.turn == "01":
+				pl.turn = "11"
 			else:
-				pl.turn = '10'
+				pl.turn = "10"
+			pl.save()
 
 		elif pl2.exists():
+			pl2 = pl2[0]
 			pl2.board = pl2.board[0:1] + hand[4:8] + pl2.board[4:6] + hand[0:4] + pl2.board[11:36]
-			if pl2.turn == '10':
-				pl2.turn = '11'
+			if pl2.turn == "10":
+				pl2.turn = "11"
 			else:
-				pl2.turn = '01'
+				pl2.turn = "01"
+			pl2.save()
 		return HttpResponseRedirect('/wait')
 
 	if pl.exists():
+		pl = pl[0]
 		whoami = "1P"
-	else:
+		pl.turn = "10"
+		pl.save()
+	elif pl2.exists():
+		pl2 = pl2[0]
 		whoami = "2P"
+		pl2.turn = "01"
+		pl2.save()
+
 	context = { 'whoami' : whoami }
 	return render(request, 'game/set.html', context)
 
