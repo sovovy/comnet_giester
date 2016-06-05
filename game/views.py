@@ -83,13 +83,9 @@ def setChk(request):
 		return HttpResponseRedirect('/wait')
 
 	if pl.exists():
-		pl = pl[0]
 		whoami = "1P"
-		pl.save()
 	elif pl2.exists():
-		pl2 = pl2[0]
 		whoami = "2P"
-		pl2.save()
 
 	context = { 'whoami' : whoami }
 	return render(request, 'game/set.html', context)
