@@ -56,7 +56,7 @@ def setChk(request):
 	w = False #패가 정상적인지
 	cnt=0
 	for i in hand:
-		if(i == '1'):
+		if i == '1':
 			cnt += 1
 	if cnt==4:
 		w = True
@@ -65,18 +65,18 @@ def setChk(request):
 	pl2 = Player.objects.filter(pt = nickname)
 	if w==True:
 		if pl.exists():
-			for i in (13,17):
-				Pl.boaed[i] = hand[i % 6 - 1]+1 #1-1P파랑이
-			for i in (19,23):
-				Pl.boaed[i] = hand[i % 6 - 1]+1 #2-1P빨강이
-			pl.turn[0] = 1
+			pl.board = pl.board[0:25] + hand[0:4] + pl.board[29:31] + hand[4:8] + pl.board[35:36]
+			if pl.turn == '01':
+				pl.turn = '11'
+			else:
+				pl.turn = '10'
 
 		elif pl2.exists():
-			for i in (7,11):
-				Pl2.boaed[i] = hand[i % 6 - 1]+2 #3-2P파랑이
-			for i in (1,5):
-				Pl2.boaed[i] = hand[i - 1]+2 #4-2P빨강이
-			pl.turn[1] = 1
+			pl2.board = pl2.board[0:1] + hand[4:8] + pl2.board[4:6] + hand[0:4] + pl2.board[11:36]
+			if pl2.turn == '10':
+				pl2.turn = '11'
+			else:
+				pl2.turn = '01'
 		return HttpResponseRedirect('/wait')
 
 	if pl.exists():
