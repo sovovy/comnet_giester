@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('po', models.CharField(default='', max_length=10)),
                 ('pt', models.CharField(default='', max_length=10)),
-                ('turn', models.CharField(default='00', max_length=3)),
+                ('turn', models.CharField(default='000', max_length=4)),
                 ('board', models.TextField(default='944448033330000000000000011110922228')),
             ],
         ),
