@@ -50,14 +50,41 @@ def set(request):
 	return render(request, 'game/set.html', context)
 	
 def setChk(request):
-	# 임시 render
-	return render(request, 'game/set.html', context)
+	nickname = request.COOKIES['nick']
+	hand = request.POST.get("hand") # 00001111 이런 포맷을 가지는 사용자의 패의 정보
 
-	# hand = request.POST.get("hand") # 00001111 이런 포맷을 가지는 사용자의 패의 정보
-	
-	#   hand DB에 반영 (몇P인지 고려해서)
-	#	DB에 turn값 알맞게 변경 => 둘다 완료되는 상태면 11이 아니라 1P로 update
-	# 	return HttpResponseRedirect('/wait')
+	w = False #패가 정상적인지
+	cnt=0
+	for i in hand:
+		if(i == '1'):
+			cnt += 1
+	if cnt==4:
+		w = True
+
+	pl = Player.objects.filter(po = nickname)
+	pl2 = Player.objects.filter(pt = nickname)
+	if w==True:
+		if pl.exists():
+			for i in (1,5):
+				Pl.boaed[i] = hand[i-1]+1 #1-1P파랑이
+			for i in (7,11):
+				Pl.boaed[i] = hand[i-1]+1 #2-1P빨강이
+			pl.turn[0] = 1
+
+		elif pl2.exists():
+			for i in (13,17):
+				Pl2.boaed[i] = hand[i-1]+2 #3-2P파랑이
+			for i in (19,23):
+				Pl2.boaed[i] = hand[i-1]+2 #4-2P빨강이
+			pl.turn[1] = 1
+		return HttpResponseRedirect('/wait')
+
+	if pl.exists():
+		whoami = "1P"
+	else:
+		whoami = "2P"
+	context = { 'whoami' : whoami }
+	return render(request, 'game/set.html', context)
 
 def wait(request):
 	##if turn값의 1P이면 (게임 시작이 가능하면)
