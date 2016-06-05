@@ -41,10 +41,18 @@ def rfsh(request):
 
 def set(request):
 	nickname = request.COOKIES['nick']
-	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
-	context = {'whoami':'1P','turn':'2P'}
-	return render(request, 'game/set.html', context)
+	pl = Player.objects.filter(po = nickname)
+	pl2 = Player.objects.filter(pt = nickname)
+	if Player.filter(po = nickname).exist():
+		T = pl[0].turn
+		context = {'whoami':'1P','turn': T}
+		return render(request, 'game/set.html', context)
+	if Player.filter(pt = nickname).exist():
+		T = pl2[0].turn
+		context = {'whoami':'2P','turn': T}
+		return render(request, 'game/set.html', context)
 
+	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
 def setChk(request):
 	# 임시 render
 	return render(request, 'game/set.html', context)
