@@ -251,12 +251,12 @@ def deal(request):
 		li[y][x-1]=term
 
 	if win1p:
-		li=['1Pwin']
+		li=[['1Pwin']]
 	if win2p:
-		li=['2Pwin']
+		li=[['2Pwin']]
 
-	context = {'whoami':whoami,'board':board}
+	context = {'whoami':whoami,'board':li}
 	## 승리 조건 ..
 	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
 	
-	return render(request, 'game/game.html', board)
+	return render(request, 'game/game.html', context)
