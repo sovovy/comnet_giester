@@ -65,17 +65,17 @@ def setChk(request):
 	pl2 = Player.objects.filter(pt = nickname)
 	if w==True:
 		if pl.exists():
-			for i in (1,5):
-				Pl.boaed[i] = hand[i-1]+1 #1-1P파랑이
-			for i in (7,11):
-				Pl.boaed[i] = hand[i-1]+1 #2-1P빨강이
+			for i in (13,17):
+				Pl.boaed[i] = hand[i % 6 - 1]+1 #1-1P파랑이
+			for i in (19,23):
+				Pl.boaed[i] = hand[i % 6 - 1]+1 #2-1P빨강이
 			pl.turn[0] = 1
 
 		elif pl2.exists():
-			for i in (13,17):
-				Pl2.boaed[i] = hand[i-1]+2 #3-2P파랑이
-			for i in (19,23):
-				Pl2.boaed[i] = hand[i-1]+2 #4-2P빨강이
+			for i in (7,11):
+				Pl2.boaed[i] = hand[i % 6 - 1]+2 #3-2P파랑이
+			for i in (1,5):
+				Pl2.boaed[i] = hand[i - 1]+2 #4-2P빨강이
 			pl.turn[1] = 1
 		return HttpResponseRedirect('/wait')
 
