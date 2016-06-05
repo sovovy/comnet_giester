@@ -188,57 +188,47 @@ def lose(request): #패배화면
 
 def deal(request):
 	nickname = request.COOKIES['nick']
-	x = request.POST.get("x") -1
-	y = request.POST.get("y") -1
+	x = request.POST.get("x")
+	y = request.POST.get("y")
 	vec = request.POST.get("vec")
 
-	pl = Player.objects.filter(po = nickname)
-	pl2 = Player.objects.filter(pt = nickname)
-	if pl.exists():
+	pl = Player.objects.filter(po = nickname).exists()
+	pl2 = Player.objects.filter(pt = nickname).exists()
+
+	# board 문자열을 리스트로 바꿔주기
+	if pl:
+		user=pl
 		board = pl[0].board
 		whoami="1P"
-	elif pl2.exists():
-		board = pl2[0].board
+		li = []
+		for i in range(0,6):
+			li.append([])
+			for j in range(0,6):
+				li[i].append(int(board[i*6+j]))
+	elif pl2:
+		# 2P면 거꾸로 가져오기
+		user=pl2
+		board = pl2[0].board 		################ l[::-1] 이거 적용 해보기
 		whoami="2P"
+		li = []
+		for i in range(0,6):
+			li.append([])
+			for j in range(0,6):
+				x = int(board[35-(i*6+j)])
+				if(x == '8'):
+					li[i].append(9)
+				elif(x == '9'):
+					li[i].append(8)
+				else:
+					li[i].append(x)
 
-	li = []
-	for i in range(0,6):
-		li.append([])
-		for j in range(0,6):
-			li[i].append(board[i*6+j]) 	#board문자열을 리스트로 바꿔주기
-
-	win1p=False
-	win2p=False
-	count1 =0
-	count2 =0
-	count3 =0
-	count4 =0
-	## board에서 상대방칸에 9,8 에 파란말 있고 플레이어 턴이면 승리
-	
-	## board 확인해서 1,2,3,4 숫자 카운트해서 승리판단 후 context 로 1pwin이나 2pwin 보냄
-	for i in li:
-		for j in i:
-			if i==1:
-				count1 +=1
-			elif i==2:
-				count2 +=1
-			elif i==3:
-				count3 +=1
-			elif i==4:
-				count4 +=1
-	if count1 == 0:
-		win2p=True
-	if count2 == 0:
-		win1p=True
-	if count3 == 0:
-		win1p=True
-	if count4 == 0:
-		win2p=True
+	# board에서 상대방 출구에 파란 말이면 승리판단
 	if li[0][0]==1 or li[0][5]==1:
 		win1p=True
 	if li[5][0]==3 or li[5][5]==3:
 		win2p=True
 
+	# 패 이동
 	term=li[y][x]
 	li[y][x]=0
 	if vec == 0:
@@ -250,7 +240,35 @@ def deal(request):
 	if vec == 3:
 		li[y][x-1]=term
 
+	# board 확인해서 1,2,3,4 숫자 카운트해서 승리판단
+	win1p=False
+	win2p=False
+	count1 =0
+	count2 =0
+	count3 =0
+	count4 =0
+	for row in li:
+		for x in row:
+			if x==1:
+				count1 +=1
+			elif x==2:
+				count2 +=1
+			elif x==3:
+				count3 +=1
+			elif x==4:
+				count4 +=1
+	if count1 == 0:
+		win2p=True
+	if count2 == 0:
+		win1p=True
+	if count3 == 0:
+		win1p=True
+	if count4 == 0:
+		win2p=True
+
+	# 승리 판단
 	if win1p:
+<<<<<<< HEAD
 		li=[['1Pwin']]
 	if win2p:
 		li=[['2Pwin']]
@@ -260,3 +278,27 @@ def deal(request):
 	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
 	
 	return render(request, 'game/game.html', context)
+=======
+		user.board="1Pwin"
+	elif win2p:
+		user.board="2Pwin"
+	else:
+		# li를 다시 문자열로 변경한 후 board 수정
+		string=''
+		for row in li:
+			for x in row:
+				string += x
+		if pl2:
+			string = string[::-1]
+
+		user.board = string
+
+	# turn 수정
+	if user.turn=="1P":
+		turn="2P"
+	else:
+		turn="1P"
+	user.save()
+
+	return HttpResponseRedirect('/game')
+>>>>>>> origin/master
