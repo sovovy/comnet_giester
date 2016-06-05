@@ -62,10 +62,16 @@ def setChk(request):
 
 	pl = Player.objects.filter(po = nickname)
 	pl2 = Player.objects.filter(pt = nickname)
+	pl_hand = ""
 	if w == True:
 		if pl.exists():
 			pl = pl[0]
-			pl.board = pl.board[0:25] + hand[0:4] + pl.board[29:31] + hand[4:8] + pl.board[35:36]
+			for i in (0,8):
+				if hand[i]=='0':
+					pl_hand += '1'
+				else:
+					pl_hand += '2'
+			pl.board = pl.board[0:25] + pl_hand[0:4] + pl.board[29:31] + pl_hand[4:8] + pl.board[35:36]
 			if pl.turn == "01":
 				pl.turn = "11"
 			else:
@@ -74,7 +80,12 @@ def setChk(request):
 
 		elif pl2.exists():
 			pl2 = pl2[0]
-			pl2.board = pl2.board[0:1] + hand[4:8] + pl2.board[4:6] + hand[0:4] + pl2.board[11:36]
+			for i in (0,8):
+				if hand[i]=='0':
+					pl_hand += '3'
+				else:
+					pl_hand += '4'
+			pl2.board = pl2.board[0:1] + pl_hand[4:8] + pl2.board[4:6] + pl_hand[0:4] + pl2.board[11:36]
 			if pl2.turn == "10":
 				pl2.turn = "11"
 			else:
