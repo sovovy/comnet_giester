@@ -22,41 +22,33 @@ def init(request):
 	return HttpResponseRedirect('/chkDB')
 
 def chkDB(request): # 게임을 시작할 수 있는 지
-	nickname = request.COOKIES['nick']
-	pl = Player.objects.filter(po = nickname)
-	pl2 = Player.objects.filter(pt = nickname)
-	if Player.filter(pt = nickname).exist():
-		return HttpResponseRedirect('/set')
-	if Player.filter(po = nickname).exist():
-		if pl.pt =='':
-			return HttpResponseRedirect('/rfsh')
-		else :
-			return HttpResponseRedirect('/set')
-
-	# 임시 render
-	
-	# if 이 닉네임이 있는 DB row에 1P 2P란이 둘다 차있으면:
-	# 	return HttpResponseRedirect('/set')
-	# else:
+   nickname = request.COOKIES['nick']
+   pl = Player.objects.filter(po = nickname)
+   pl2 = Player.objects.filter(pt = nickname)
+   if pl2.exists():
+      return HttpResponseRedirect('/set')
+   if pl.exists():
+      if pl[0].pt =='':
+         return HttpResponseRedirect('/rfsh')
+      else :
+         return HttpResponseRedirect('/set')
 
 def rfsh(request):
-	nickname = request.COOKIES['nick']
-	return render(request, 'game/rfsh.html')
+   nickname = request.COOKIES['nick']
+   return render(request, 'game/rfsh.html')
 
 def set(request):
-	nickname = request.COOKIES['nick']
-	pl = Player.objects.filter(po = nickname)
-	pl2 = Player.objects.filter(pt = nickname)
-	if Player.filter(po = nickname).exist():
-		T = pl[0].turn
-		context = {'whoami':'1P','turn': T}
-		return render(request, 'game/set.html', context)
-	if Player.filter(pt = nickname).exist():
-		T = pl2[0].turn
-		context = {'whoami':'2P','turn': T}
-		return render(request, 'game/set.html', context)
-
-	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
+   nickname = request.COOKIES['nick']
+   pl = Player.objects.filter(po = nickname)
+   pl2 = Player.objects.filter(pt = nickname)
+   if pl.exists():
+      T = pl[0].turn
+      context = {'whoami':'1P','turn': T}
+      return render(request, 'game/set.html', context)
+   if pl2.exists():
+      T = pl2[0].turn
+      context = {'whoami':'2P','turn': T}
+      return render(request, 'game/set.html', context)
 def setChk(request):
 	# 임시 render
 	return render(request, 'game/set.html', context)
