@@ -21,7 +21,7 @@ body{
 	background: url("./intro-bg.jpg") no-repeat;
 	background-size: cover;
 }
-#loginWrap form{
+#loginWrap div{
 	text-align: center;
 }
 input#nick{

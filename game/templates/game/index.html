@@ -6,15 +6,28 @@
 
 {% block content %}
 <div id="loginWrap">
-	<form action="init" method="post">{% csrf_token %}
-		<input id="nick" name="nick" type="textarea" placeholder="닉네임을 입력하세요">
+	<div>
+		<input id="nick" name="nick" type="textarea" placeholder="닉네임을 입력하세요" required>
 		<input id="loginBtn" type="submit" value="들어가기">
-	</form>
+	</div>
 </div>
+{% block overlap %}
+    {% if overlap %}
+	<script>
+		alert('{{ overlap }}');
+	</script>
+    {% endif %}
+{% endblock %}
 <script>
 	$(function(){
 		$('#loginBtn').on('click',function(){
-			document.cookie = "nick="+$('#nick').val()+";";
+			var re = /^[a-zA-Z0-9]+$/;
+			if (re.test($('#nick').val())){
+				document.cookie = "nick="+$('#nick').val()+";";
+				location.href='./init';
+			}else{
+				alert('닉네임은 영어와 숫자만 가능합니다.');
+			}
 		});
 	});
 </script>

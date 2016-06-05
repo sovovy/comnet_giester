@@ -8,7 +8,14 @@ def index(request):
 	return render(request, 'game/index.html')
 
 def init(request):
-	nickname = request.POST['nick']
+	nickname = request.COOKIES['nick']
+
+	pl = Player.objects.filter(po = nickname).exists()
+	pl2 = Player.objects.filter(pt = nickname).exists()
+
+	if pl or pl2:
+		return render(request, 'game/index.html', {'overlap':'해당 닉네임은 중복됩니다.'})
+		
 	players = Player.objects.all()
 	count = players.count()
 	players = players[count-1]
