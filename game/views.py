@@ -13,7 +13,7 @@ def init(request):
 		player = Player.objects.get(pt=nickname)
 		player.save()
 	except:
-		player = Player(po=nickname)
+		player = Player(po=nickname, turn=00, board=944448033330000000000000011110922228)
 		player.save()
 	#DB에 닉네임 올리기
 	return HttpResponseRedirect('/chkDB')
@@ -22,8 +22,15 @@ def chkDB(request): # 게임을 시작할 수 있는 지
 	nickname = request.COOKIES['nick']
 	pl = Player.objects.filter(po = nickname)
 	pl2 = Player.objects.filter(pt = nickname)
+	if Player.filter(pt = nickname).exist():
+		return HttpResponseRedirect('/set')
+	if Player.filter(po = nickname).exist():
+		if p1[0].pt:
+			return HttpResponseRedirect('/set')
+		else :
+			return HttpResponseRedirect('/rfsh')
 	# 임시 render
-	return HttpResponseRedirect('/rfsh')
+	
 	# if 이 닉네임이 있는 DB row에 1P 2P란이 둘다 차있으면:
 	# 	return HttpResponseRedirect('/set')
 	# else:
