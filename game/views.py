@@ -85,12 +85,10 @@ def setChk(request):
 	if pl.exists():
 		pl = pl[0]
 		whoami = "1P"
-		pl.turn = "10"
 		pl.save()
 	elif pl2.exists():
 		pl2 = pl2[0]
 		whoami = "2P"
-		pl2.turn = "01"
 		pl2.save()
 
 	context = { 'whoami' : whoami }
