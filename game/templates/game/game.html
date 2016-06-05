@@ -79,8 +79,15 @@
 			$('.ar_bottom').css( {left: lf + ((width-30)/2) , top: tp+width+5 } );
 			$('.ar_left').css( {left: lf -23 , top: tp + ((width-30)/2)} );
 			$('.arrow').css('visibility','visible');
-			// $('#x').val();
-			// $('#y').val();
+
+			for(i=1; i<=6; i++){
+				for(j=1; j<=6; j++){
+					if($(this).is($('tr:nth-child('+i+') td:nth-child('+j+') div'))){
+						$('#x').val(j);
+						$('#y').val(i);
+					}
+				}
+			}
 		});
 
 		$('.arrow').on('click',function(){
