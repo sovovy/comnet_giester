@@ -66,7 +66,7 @@ def setChk(request):
 	if w == True:
 		if pl.exists():
 			pl = pl[0]
-			for i in (0,8):
+			for i in range (0,8):
 				if hand[i]=='0':
 					pl_hand += '1'
 				else:
@@ -80,7 +80,7 @@ def setChk(request):
 
 		elif pl2.exists():
 			pl2 = pl2[0]
-			for i in (0,8):
+			for i in range (0,8):
 				if hand[i]=='0':
 					pl_hand += '3'
 				else:
