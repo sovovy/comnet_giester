@@ -175,6 +175,16 @@ def game(request):
 
 	# 프론트에서 전송을 누르면 x,y,vec,whoami를 deal에게 post시킴
 
+	
+def win(request): #승리화면
+
+	return render(request, 'game/win.html')#,context)
+
+def lose(request): #패배화면	
+
+	return render(request, 'game/lose.html')#,context)
+
+	# 승부 결과 처리
 
 def deal(request):
 	nickname = request.COOKIES['nick']
