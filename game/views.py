@@ -190,6 +190,8 @@ def winLose(request): #승패결과처리
 	return render(request, 'game/winLose.html',context)
 
 	# 승부 결과 처리
+def oneMore(request):	#한판 더 하기!
+	return HttpResponseRedirect('/init')
 
 def deal(request):
 	nickname = request.COOKIES['nick']
