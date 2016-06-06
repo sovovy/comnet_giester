@@ -235,9 +235,9 @@ def deal(request):
 			li.append([])
 			for j in range(0,6):
 				x = int(board[35-(i*6+j)])
-				if(x == '8'):
+				if(x == 8):
 					li[i].append(9)
-				elif(x == '9'):
+				elif(x == 9):
 					li[i].append(8)
 				else:
 					li[i].append(x)
