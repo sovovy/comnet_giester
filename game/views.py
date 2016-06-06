@@ -94,7 +94,7 @@ def setChk(request):
 					pl_hand += '3'
 				else:
 					pl_hand += '4'
-				pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5:7] + pl_hand[:4][::-1] + pl2.board[10:]
+				pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5:7] + pl_hand[:4][::-1] + pl2.board[11:]
 			if pl2.turn == "10":
 				pl2.turn = "1P"
 				pl2.save()
