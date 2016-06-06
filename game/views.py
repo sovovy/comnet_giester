@@ -81,10 +81,9 @@ def setChk(request):
          pl.board = pl.board[:25] + pl_hand[:4] + pl.board[29:31] + pl_hand[4:] + pl.board[35]
          if pl.turn == "01":
             pl.turn = "1P"
-            pl.save()
          else:
             pl.turn = "10"
-            pl.save()
+         pl.save()
 
       elif pl2.exists():
          pl2 = pl2[0]
@@ -96,10 +95,9 @@ def setChk(request):
          pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5:7] + pl_hand[:4][::-1] + pl2.board[11:]
          if pl2.turn == "10":
             pl2.turn = "1P"
-            pl2.save()
          else:
             pl2.turn = "01"
-            pl2.save()
+         pl2.save()
       return HttpResponseRedirect('/wait')
    else:
       return HttpResponseRedirect('/set')
@@ -183,17 +181,18 @@ def game(request):
 def winLose(request): #승패결과처리
 	nickname = request.COOKIES['nick']
 	pl = Player.objects.filter(po = nickname) 
+	pl2 = Player.objects.filter(pt = nickname)
 	if pl.exists(): 
 		whoami = "1P"
 		if pl[0].board == "1Pwin":  #승리
 			wl = "win"
 		elif pl[0].board == "2Pwin": #패배
 			wl = "lose"
-	else:
+	elif pl2.exists():
 		whoami = "2P"
-		if pl[0].board == "2Pwin":  #승리
+		if pl2[0].board == "2Pwin":  #승리
 			wl = "win"
-		elif pl[0].board == "1Pwin": #패배
+		elif pl2[0].board == "1Pwin": #패배
 			wl = "lose"
 
 	context = {'whoami' : whoami, 'winLose': wl}
@@ -206,41 +205,27 @@ def oneMore(request):	#한판 더 하기!
 def deal(request):
 	#game.html 으로부터 post받아옴
 	nickname = request.COOKIES['nick']
-	x = request.POST.get("x")
-	y = request.POST.get("y")
-	x = int(x)
-	y = int(y)
+	x = int(request.POST.get("x"))
+	y = int(request.POST.get("y"))
 	vec = request.POST.get("vec")
-
 	pl = Player.objects.filter(po = nickname)
 	pl2 = Player.objects.filter(pt = nickname)
 
 	# board 문자열을 리스트로 바꿔주기
+	li = []
 	if pl.exists():
-		user=pl
-		board = pl[0].board
+		user = pl = pl[0]
+		board = pl.board
 		whoami="1P"
-		li = []
-		for i in range(0,6):
-			li.append([])
-			for j in range(0,6):
-				li[i].append(int(board[i*6+j]))
 	elif pl2.exists():
 		# 2P면 거꾸로 가져오기
-		user=pl2
-		board = pl2[0].board 		################ l[::-1] 이거 적용 해보기
+		user = pl2 = pl2[0]
+		board = pl2.board 
 		whoami="2P"
-		li = []
-		for i in range(0,6):
-			li.append([])
-			for j in range(0,6):
-				x = int(board[35-(i*6+j)])
-				if(x == '8'):
-					li[i].append(9)
-				elif(x == '9'):
-					li[i].append(8)
-				else:
-					li[i].append(x)
+	for i in range(0,6):
+		li.append([])
+		for j in range(0,6):
+			li[i].append(int(board[i*6+j]))
 
 	# board에서 상대방 출구에 파란 말이면 승리판단
 	if li[0][0]==1 or li[0][5]==1:
@@ -249,16 +234,30 @@ def deal(request):
 		win2p=True
 
 	# 패 이동
-	term=li[y][x]
-	li[y][x]=0
-	if vec == 0:
-		li[y-1][x]=term
-	if vec == 1:
-		li[y][x+1]=term
-	if vec == 2:
-		li[y+1][x]=term
-	if vec == 3:
-		li[y][x-1]=term
+	if pl.exists():
+		term=li[y][x]
+		li[y][x]=0
+		if vec == 0:
+			li[y-1][x]=term
+		if vec == 1:
+			li[y][x+1]=term
+		if vec == 2:
+			li[y+1][x]=term
+		if vec == 3:
+			li[y][x-1]=term
+	elif pl2.exists():
+		x = 5 - x;	#2P기준으로 x,y값을 고치고 2P기준으로 말을 옮긴다.
+		y = 5 - y;
+		term=li[y][x]
+		li[y][x]=0
+		if vec == 0:
+			li[y+1][x]=term
+		if vec == 1:
+			li[y][x-1]=term
+		if vec == 2:
+			li[y-1][x]=term
+		if vec == 3:
+			li[y][x+1]=term
 
 	# board 확인해서 1,2,3,4 숫자 카운트해서 승리판단
 	win1p=False
@@ -296,17 +295,14 @@ def deal(request):
 		string=''
 		for row in li:
 			for x in row:
-				string += x
-		if pl2:
-			string = string[::-1]
-
+				string += str(x)
 		user.board = string
 
 	# turn 수정
 	if user.turn=="1P":
-		turn="2P"
+		user.turn="2P"
 	else:
-		turn="1P"
+		user.turn="1P"
 	user.save()
 
 	return HttpResponseRedirect('/game')
