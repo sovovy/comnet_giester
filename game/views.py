@@ -130,7 +130,22 @@ def deal(request):
 	x = request.POST.get("x") -1
 	y = request.POST.get("y") -1
 	vec = request.POST.get("vec")
-	li=request.POST.get("board")
+
+	pl = Player.objects.filter(po = nickname)
+	pl2 = Player.objects.filter(pt = nickname)
+	if pl.exists():
+		board = pl[0].board
+		whoami="1P"
+	elif pl2.exists():
+		board = pl2[0].board
+		whoami="2P"
+
+	li = []
+	for i in range(0,6):
+		li.append([])
+		for j in range(0,6):
+			li[i].append(board[i*6+j]) 	#board문자열을 리스트로 바꿔주기
+
 	win1p=False
 	win2p=False
 	count1 =0
@@ -140,16 +155,16 @@ def deal(request):
 	## board에서 상대방칸에 9,8 에 파란말 있고 플레이어 턴이면 승리
 	
 	## board 확인해서 1,2,3,4 숫자 카운트해서 승리판단 후 context 로 1pwin이나 2pwin 보냄
-	for i in range(0,6):
-		if 1 in li[i]:
-			count1 = count1 +1
-		if 2 in li[i]:
-			count2 = count2 +1
-		if 3 in li[i]:
-			count3 = count3 +1
-		if 4 in li[i]:
-			count4 = count4 +1
-
+	for i in li:
+		for j in i:
+			if i==1:
+				count1 +=1
+			elif i==2:
+				count2 +=1
+			elif i==3:
+				count3 +=1
+			elif i==4:
+				count4 +=1
 	if count1 == 0:
 		win2p=True
 	if count2 == 0:
@@ -158,31 +173,27 @@ def deal(request):
 		win1p=True
 	if count4 == 0:
 		win2p=True
+	if li[0][0]==1 or li[0][5]==1:
+		win1p=True
+	if li[5][0]==3 or li[5][5]==3:
+		win2p=True
 
-	term=li[x][y]
-	li[x][y]=0
+	term=li[y][x]
+	li[y][x]=0
+	if vec == 0:
+		li[y-1][x]=term
 	if vec == 1:
-		y=y-1
-		li[x][y]=term
+		li[y][x+1]=term
 	if vec == 2:
-		x=x+1
-		li[x][y]=term
+		li[y+1][x]=term
 	if vec == 3:
-		y=y+1
-		li[x][y]=term
-	if vec == 4:
-		x=x-1
-		li[x][y]=term
+		li[y][x-1]=term
 
 	if win1p:
 		li=['1Pwin']
 	if win2p:
 		li=['2Pwin']
 
-	if Player.objects.filter(po = nickname).exists():
-		whoami="1P"
-	if Player.objects.filter(pt = nickname).exists():
-		whoami="2P"
 	context = {'whoami':whoami,'board':board}
 	## 승리 조건 ..
 	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
