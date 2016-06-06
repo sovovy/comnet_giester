@@ -173,12 +173,24 @@ def game(request):
 
 
 def win(request): #승리화면
-
-	return render(request, 'game/win.html')#,context)
+	nickname = request.COOKIES['nick']
+	pl = Player.objects.filter(po = nickname) 
+	if pl.exists():
+		whoami = "1P"
+	else:
+		whoami = "2P"
+	context = {'whoami':whoami}
+	return render(request, 'game/win.html',context)
 
 def lose(request): #패배화면	
-
-	return render(request, 'game/lose.html')#,context)
+	nickname = request.COOKIES['nick']
+	pl = Player.objects.filter(po = nickname) 
+	if pl.exists():
+		whoami = "1P"
+	else:
+		whoami = "2P"
+	context = {'whoami':whoami}
+	return render(request, 'game/lose.html',context)
 
 	# 승부 결과 처리
 

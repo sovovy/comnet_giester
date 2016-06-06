@@ -1,0 +1,28 @@
+{% extends "game/layout.html" %}
+
+{% block title %}
+대기 중
+{% endblock %}
+
+{% block content %}
+<div id="Wrap">
+	<div class="left atc">
+		<div id="me" class="box">당신은<br>
+			{% ifequal whoami "1P" %}
+				<span class="1P">1P </span>입니다
+			{% else %}
+				<span class="2P">2P </span>입니다
+			{% endifequal %}
+		</div>
+		<div id="rule" class="box"> <span class="mark">?</span> 게임 방법</div>
+	</div>
+	<div class="board atc" style='width: 40vw; height: 10vw; text-align: center;'>
+		<form action='wait' method='POST'>{% csrf_token %} 
+			<input id="check" src='./assets/refresh.png' type='image'>
+		</form>
+	</div>
+	<div class="right atc">
+		<div id="turn" class="box">대기 중</div>
+	</div>
+</div>
+{% endblock %}
