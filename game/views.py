@@ -127,9 +127,9 @@ def wait(request):
 	# 1P가 선을 잡도록 turn을 "1P"로 셋팅한 뒤
 	# /game으로 redirect
 	
-	context = {'whoami' : whoami}
-	return render(request, 'game/wait.html',context)
-	# 아직 하나라도 셋팅되어있지 않다면 whoami정보 넘겨주며 wait.html render
+	#context = {'whoami' : whoami}
+	return render(request, 'game/wait.html')#,context)
+	# 아직 하나라도 셋팅되어있지 않다면 wait.html render
 	
 
 def game(request):
@@ -155,19 +155,23 @@ def game(request):
 	# 그렇지 않은 경우에는 턴 데이터를 설정하고
 	# 보드데이터를 읽어옴
 
-	board =[li[0:5],
-		li[6:11],
-		li[12:17],
-		li[18:23],
-		li[24:29],
-		li[30:35]]
+	board = []
+	for i in range(0,6):
+		tmp = []
+		for j in range(0,6):
+			tmp.append(int(li[i*6+j]))
+		board.append(tmp)
+	
+	#board = [
+	#    [1,1,1,1,1,1],[1,1,1,1,1,1],
+	#    [1,1,1,1,1,1],[1,1,1,1,1,1],
+	#    [1,1,1,1,1,1],[1,1,1,1,1,1] 
+	#         ]
 	# 그 읽어온 보드데이터를 6개씩 끊어서 'board'를 구성하고 프론트에 전달
 
 	context = {'whoami':whoami,'turn':turn,'board':board}
 	return render(request, 'game/game.html',context)
 
-
-	# 프론트에서 전송을 누르면 x,y,vec를 deal에게 post시킴
 
 
 def winLose(request): #승패결과처리
@@ -194,6 +198,7 @@ def oneMore(request):	#한판 더 하기!
 	return HttpResponseRedirect('/init')
 
 def deal(request):
+	#game.html 으로부터 post받아옴
 	nickname = request.COOKIES['nick']
 	x = request.POST.get("x")
 	y = request.POST.get("y")
