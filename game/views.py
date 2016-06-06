@@ -264,17 +264,6 @@ def deal(request):
 
 	# 승리 판단
 	if win1p:
-<<<<<<< HEAD
-		li=[['1Pwin']]
-	if win2p:
-		li=[['2Pwin']]
-
-	context = {'whoami':whoami,'board':li}
-	## 승리 조건 ..
-	## nickname 에 맞는 DB값 중 몇P인지 가져와서 쿠키에 저장 => whoami변수
-	
-	return render(request, 'game/game.html', context)
-=======
 		user.board="1Pwin"
 	elif win2p:
 		user.board="2Pwin"
@@ -297,4 +286,3 @@ def deal(request):
 	user.save()
 
 	return HttpResponseRedirect('/game')
->>>>>>> origin/master
