@@ -78,7 +78,7 @@ def setChk(request):
 					pl_hand += '1'
 				else:
 					pl_hand += '2'
-				pl.board = pl.board[:25] + pl_hand[:4] + pl.board[30] + pl_hand[4:] + pl.board[35]
+				pl.board = pl.board[:25] + pl_hand[:4] + pl.board[29:31] + pl_hand[4:] + pl.board[35]
 			if pl.turn == "01":
 				pl.turn = "1P"
 				pl.save()
@@ -94,9 +94,9 @@ def setChk(request):
 					pl_hand += '3'
 				else:
 					pl_hand += '4'
-				pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5] + pl_hand[:4][::-1] + pl2.board[10:]
+				pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5:7] + pl_hand[:4][::-1] + pl2.board[10:]
 			if pl2.turn == "10":
-				pl2.turn = "2P"
+				pl2.turn = "1P"
 				pl2.save()
 				return HttpResponseRedirect('/game')
 			else:
