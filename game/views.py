@@ -208,13 +208,15 @@ def deal(request):
 	nickname = request.COOKIES['nick']
 	x = request.POST.get("x")
 	y = request.POST.get("y")
+	x = int(x)
+	y = int(y)
 	vec = request.POST.get("vec")
 
-	pl = Player.objects.filter(po = nickname).exists()
-	pl2 = Player.objects.filter(pt = nickname).exists()
+	pl = Player.objects.filter(po = nickname)
+	pl2 = Player.objects.filter(pt = nickname)
 
 	# board 문자열을 리스트로 바꿔주기
-	if pl:
+	if pl.exists():
 		user=pl
 		board = pl[0].board
 		whoami="1P"
@@ -223,7 +225,7 @@ def deal(request):
 			li.append([])
 			for j in range(0,6):
 				li[i].append(int(board[i*6+j]))
-	elif pl2:
+	elif pl2.exists():
 		# 2P면 거꾸로 가져오기
 		user=pl2
 		board = pl2[0].board 		################ l[::-1] 이거 적용 해보기
