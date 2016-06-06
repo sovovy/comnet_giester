@@ -212,34 +212,19 @@ def deal(request):
 	pl2 = Player.objects.filter(pt = nickname)
 
 	# board 문자열을 리스트로 바꿔주기
-	li = []
 	if pl.exists():
 		user = pl = pl[0]
 		board = pl.board
 		whoami="1P"
 	elif pl2.exists():
-		# 2P면 거꾸로 가져오기
 		user = pl2 = pl2[0]
 		board = pl2.board 
 		whoami="2P"
-<<<<<<< HEAD
+	li = []
 	for i in range(0,6):
 		li.append([])
 		for j in range(0,6):
 			li[i].append(int(board[i*6+j]))
-=======
-		li = []
-		for i in range(0,6):
-			li.append([])
-			for j in range(0,6):
-				x = int(board[35-(i*6+j)])
-				if(x == 8):
-					li[i].append(9)
-				elif(x == 9):
-					li[i].append(8)
-				else:
-					li[i].append(x)
->>>>>>> origin/master
 
 	# board에서 상대방 출구에 파란 말이면 승리판단
 	if li[0][0]==1 or li[0][5]==1:
