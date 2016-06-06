@@ -57,53 +57,52 @@ def set(request):
 	return render(request, 'game/set.html', context)
 	
 def setChk(request):
-   nickname = request.COOKIES['nick']
-   hand = request.POST.get("hand") # 00001111 이런 포맷을 가지는 사용자의 패의 정보
-   w = False #패가 정상적인지
-   cnt=0
-   for i in hand:
-      if i == '1':
-         cnt += 1
-   if cnt==4:
-      w = True
+	nickname = request.COOKIES['nick']
+	hand = request.POST.get("hand") # 00001111 이런 포맷을 가지는 사용자의 패의 정보
+	w = False #패가 정상적인지
+	cnt=0
+	for i in hand:
+	  if i == '1':
+	     cnt += 1
+	if cnt==4:
+	  w = True
 
-   pl = Player.objects.filter(po = nickname)
-   pl2 = Player.objects.filter(pt = nickname)
-   pl_hand = ""
-   if w == True:
-      if pl.exists():
-         pl = pl[0]
-         for i in range (0,8):
-            if hand[i]=='0':
-               pl_hand += '1'
-            else:
-               pl_hand += '2'
-            pl.board = pl.board[:25] + pl_hand[:4] + pl.board[29:31] + pl_hand[4:] + pl.board[35]
-         if pl.turn == "01":
-            pl.turn = "11"
-            pl.save()
-         else:
-            pl.turn = "10"
-            pl.save()
+	pl = Player.objects.filter(po = nickname)
+	pl2 = Player.objects.filter(pt = nickname)
+	pl_hand = ""
+	if w == True:
+		if pl.exists():
+			pl = pl[0]
+			for i in range (0,8):
+				if hand[i]=='0':
+				   pl_hand += '1'
+				else:
+				   pl_hand += '2'
+			pl.board = pl.board[:25] + pl_hand[:4] + pl.board[29:31] + pl_hand[4:] + pl.board[35]
+			if pl.turn == "01":
+				pl.turn = "11"
+				pl.save()
+			else:
+				pl.turn = "10"
+				pl.save()
 
-      elif pl2.exists():
-         pl2 = pl2[0]
-         for i in range (0,8):
-            if hand[i]=='0':
-               pl_hand += '3'
-            else:
-               pl_hand += '4'
-            pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5:7] + pl_hand[:4][::-1] + pl2.board[11:]
-         if pl2.turn == "10":
-            pl2.turn = "11"
-            pl2.save()
-         else:
-            pl2.turn = "01"
-            pl2.save()
-      return HttpResponseRedirect('/wait')
-
-   else:
-      return HttpResponseRedirect('/set')
+		elif pl2.exists():
+			pl2 = pl2[0]
+			for i in range (0,8):
+				if hand[i]=='0':
+				   pl_hand += '3'
+				else:
+				   pl_hand += '4'
+			pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5:7] + pl_hand[:4][::-1] + pl2.board[11:]
+			if pl2.turn == "10":
+				pl2.turn = "11"
+				pl2.save()
+			else:
+				pl2.turn = "01"
+				pl2.save()
+		return HttpResponseRedirect('/wait')
+	else:
+		return HttpResponseRedirect('/set')
 
 def wait(request):
 	nickname = request.COOKIES['nick']
@@ -111,12 +110,16 @@ def wait(request):
 	pl2 = Player.objects.filter(pt = nickname) # p2기준
 
 	if pl.exists():
+		whoami = "1P"
+		pl = pl[0]
 		if pl.turn == "11": 
 			pl.turn = "1P"
 			pl.save()
 			return HttpResponseRedirect('/game')
 	elif pl2.exists():
-		if pl2.turn =="11": 
+		whoami = "2P"
+		pl2 = pl2[0]
+		if pl2.turn =="11":
 			pl2.turn = "1P"
 			pl2.save()
 			return HttpResponseRedirect('/game')
@@ -124,7 +127,6 @@ def wait(request):
 	# 1P가 선을 잡도록 turn을 "1P"로 셋팅한 뒤
 	# /game으로 redirect
 	
-
 	context = {'whoami' : whoami}
 	return render(request, 'game/wait.html',context)
 	# 아직 하나라도 셋팅되어있지 않다면 whoami정보 넘겨주며 wait.html render
