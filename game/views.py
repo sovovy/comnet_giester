@@ -137,23 +137,19 @@ def game(request):
 
 	if pl.exists(): # p1 기준
 		whoami = '1P'
-		if pl[0].board == "1Pwin":
-			return HttpResponseRedirect('/win')
-		elif pl[0].board == "2Pwin":
-			return HttpResponseRedirect('/lose')
+		if pl[0].board == "1Pwin" or pl[0].board == "2Pwin":
+			return HttpResponseRedirect('/winLose')
 		else:
 			li = pl[0].board
 			turn = pl[0].turn
 	elif pl2.exists(): # p2 기준
 		whoami = '2P'
-		if pl2[0].board == "2Pwin":
-			return HttpResponseRedirect('/win')
-		elif pl2[0].board == "1Pwin":
-			return HttpResponseRedirect('/lose')
+		if pl2[0].board == "2Pwin" or pl2[0].board == "1Pwin":
+			return HttpResponseRedirect('/winLose')
 		else:
 			li = pl2[0].board
 			turn = pl2[0].turn
-	# 승리가 결정난 경우 해당 페이지로 redirect
+	# 승리가 결정난 경우 winLose로 redirect
 	# 그렇지 않은 경우에는 턴 데이터를 설정하고
 	# 보드데이터를 읽어옴
 
@@ -172,25 +168,24 @@ def game(request):
 	# 프론트에서 전송을 누르면 x,y,vec를 deal에게 post시킴
 
 
-def win(request): #승리화면
+def winLose(request): #승패결과처리
 	nickname = request.COOKIES['nick']
 	pl = Player.objects.filter(po = nickname) 
-	if pl.exists():
+	if pl.exists(): 
 		whoami = "1P"
+		if pl[0].board == "1Pwin":  #승리
+			wl = "win"
+		elif pl[0].board == "2Pwin": #패배
+			wl = "lose"
 	else:
 		whoami = "2P"
-	context = {'whoami':whoami}
-	return render(request, 'game/win.html',context)
+		if pl[0].board == "2Pwin":  #승리
+			wl = "win"
+		elif pl[0].board == "1Pwin": #패배
+			wl = "lose"
 
-def lose(request): #패배화면	
-	nickname = request.COOKIES['nick']
-	pl = Player.objects.filter(po = nickname) 
-	if pl.exists():
-		whoami = "1P"
-	else:
-		whoami = "2P"
-	context = {'whoami':whoami}
-	return render(request, 'game/lose.html',context)
+	context = {'whoami' : whoami, 'winLose': wl}
+	return render(request, 'game/winLose.html',context)
 
 	# 승부 결과 처리
 

@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^setChk$', views.setChk),
     url(r'^game$', views.game),
     url(r'^wait$', views.wait),
-    url(r'^deal$', views.deal)
+    url(r'^deal$', views.deal),
+    url(r'^winLose$', views.winLose)
 ]

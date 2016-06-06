@@ -1,7 +1,11 @@
 {% extends "game/layout.html" %}
 
 {% block title %}
-패배!
+{% ifequal winLose "win" %}
+	승리!
+{% else %}
+	패배!
+{% endifequal %}
 {% endblock %}
 
 {% block content %}
