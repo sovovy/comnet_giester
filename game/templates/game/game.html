@@ -83,8 +83,8 @@
 			for(i=1; i<=6; i++){
 				for(j=1; j<=6; j++){
 					if($(this).is($('tr:nth-child('+i+') td:nth-child('+j+') div'))){
-						$('#x').val(j);
-						$('#y').val(i);
+						$('#x').val(j-1);
+						$('#y').val(i-1);
 					}
 				}
 			}
