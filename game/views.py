@@ -108,20 +108,72 @@ def setChk(request):
 		return HttpResponseRedirect('/set')
 
 def wait(request):
-	##if turn값의 1P이면 (게임 시작이 가능하면)
-	# 	return HttpResponseRedirect('/game')c
-	# else:
-	return render(request, 'game/wait.html')
+	nickname = request.COOKIES['nick']
+	pl = Player.objects.filter(po = nickname)  # p1기준
+	pl2 = Player.objects.filter(pt = nickname) # p2기준
+
+	if pl.exists():
+		if pl.turn == "11": 
+			pl.turn = "1P"
+			#whoami = "1P"
+			pl.save()
+			return HttpResponseRedirect('/game')
+	elif pl2.exists():
+		if pl2.turn =="11": 
+			pl2.turn = "1P"
+			#whoami = "2P"
+			pl2.save()
+			return HttpResponseRedirect('/game')
+	# 둘다 셋팅 완료되었으면
+	# 1P가 선을 잡도록 turn을 "1P"로 셋팅한 뒤
+	# /game으로 redirect
+	
+
+	context = {'whoami' : whoami}
+	return render(request, 'game/wait.html',context)
+	# 아직 하나라도 셋팅되어있지 않다면 whoami정보 넘겨주며 wait.html render
+	
 
 def game(request):
-	#### 게임 내용들
-	#	return render(request, 'game/game.html', context)
+	nickname = request.COOKIES['nick']
+	pl = Player.objects.filter(po = nickname)  # p1기준
+	pl2 = Player.objects.filter(pt = nickname) # p2기준
 
-	# 임시 render
-	li=[[9,4,4,4,4,8],[0,3,3,3,3,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,1,1,1,1,0],[9,2,2,2,2,8]]
-	context = {'whoami':'1P','turn':'1P','board':li}
+	if pl.exists(): # p1 기준
+		whoami = '1P'
+		if pl[0].board == "1PWIN":
+			return HttpResponseRedirect('/win')
+		elif pl[0].board == "2PWIN":
+			return HttpResponseRedirect('/lose')
+		else:
+			li = pl[0].board
+			turn = pl[0].turn
+	elif pl2.exists(): # p2 기준
+		whoami = '2P'
+		if pl2[0].board == "2PWIN":
+			return HttpResponseRedirect('/win')
+		elif pl2[0].board == "1PWIN":
+			return HttpResponseRedirect('/lose')
+		else:
+			li = pl2[0].board
+			turn = pl2[0].turn
+	# 승리가 결정난 경우 해당 페이지로 redirect
+	# 그렇지 않은 경우에는 턴 데이터를 설정하고
+	# 보드데이터를 읽어옴
+
+	board =[li[0:5],
+		li[6:11],
+		li[12:17],
+		li[18:23],
+		li[24:29],
+		li[30:35]]
+	# 그 읽어온 보드데이터를 6개씩 끊어서 'board'를 구성하고 프론트에 전달
+
+	context = {'whoami':whoami,'turn':turn,'board':board}
 	return render(request, 'game/game.html',context)
 
+
+	# 프론트에서 전송을 누르면 x,y,vec,whoami를 deal에게 post시킴
 
 
 def deal(request):
