@@ -78,12 +78,14 @@ def setChk(request):
 					pl_hand += '1'
 				else:
 					pl_hand += '2'
-			pl.board = pl.board[0:25] + pl_hand[0:4] + pl.board[29:31] + pl_hand[4:8] + pl.board[35:36]
+				pl.board = pl.board[:25] + pl_hand[:4] + pl.board[30] + pl_hand[4:] + pl.board[35]
 			if pl.turn == "01":
-				pl.turn = "11"
+				pl.turn = "1P"
+				pl.save()
+				return HttpResponseRedirect('/game')
 			else:
 				pl.turn = "10"
-			pl.save()
+				pl.save()
 
 		elif pl2.exists():
 			pl2 = pl2[0]
@@ -92,21 +94,18 @@ def setChk(request):
 					pl_hand += '3'
 				else:
 					pl_hand += '4'
-			pl2.board = pl2.board[0:1] + pl_hand[4:8] + pl2.board[4:6] + pl_hand[0:4] + pl2.board[11:36]
+				pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5] + pl_hand[:4][::-1] + pl2.board[10:]
 			if pl2.turn == "10":
-				pl2.turn = "11"
+				pl2.turn = "2P"
+				pl2.save()
+				return HttpResponseRedirect('/game')
 			else:
 				pl2.turn = "01"
-			pl2.save()
+				pl2.save()
 		return HttpResponseRedirect('/wait')
 
-	if pl.exists():
-		whoami = "1P"
-	elif pl2.exists():
-		whoami = "2P"
-
-	context = { 'whoami' : whoami }
-	return render(request, 'game/set.html', context)
+	else:
+		return HttpResponseRedirect('/set')
 
 def wait(request):
 	##if turn값의 1P이면 (게임 시작이 가능하면)
