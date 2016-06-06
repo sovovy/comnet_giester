@@ -137,18 +137,18 @@ def game(request):
 
 	if pl.exists(): # p1 기준
 		whoami = '1P'
-		if pl[0].board == "1PWIN":
+		if pl[0].board == "1Pwin":
 			return HttpResponseRedirect('/win')
-		elif pl[0].board == "2PWIN":
+		elif pl[0].board == "2Pwin":
 			return HttpResponseRedirect('/lose')
 		else:
 			li = pl[0].board
 			turn = pl[0].turn
 	elif pl2.exists(): # p2 기준
 		whoami = '2P'
-		if pl2[0].board == "2PWIN":
+		if pl2[0].board == "2Pwin":
 			return HttpResponseRedirect('/win')
-		elif pl2[0].board == "1PWIN":
+		elif pl2[0].board == "1Pwin":
 			return HttpResponseRedirect('/lose')
 		else:
 			li = pl2[0].board
