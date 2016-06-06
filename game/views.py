@@ -157,10 +157,19 @@ def game(request):
             li.append([])
             for j in range(0,6):
                x = int(board[i*6+j])
-               if(x == '8'):
+               if(x == 8):
                   li[i].append(9)
-               elif(x == '9'):
+               elif(x == 9):
                   li[i].append(8)
+               elif(x == 1):
+                  li[i].append(3)
+               elif(x == 2):
+                  li[i].append(4)
+               elif(x == 3):
+                  li[i].append(1)
+               elif(x == 4):
+                  li[i].append(2)
+               # 상대패는 뒤집고 보이는것도 다르게
                else:
                   li[i].append(x)
    # 승리가 결정난 경우 winLose로 redirect
