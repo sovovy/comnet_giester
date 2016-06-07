@@ -253,25 +253,25 @@ def deal(request):
 		term=li[y][x]
 		li[y][x]=0
 		if vec == 0:
-			if li[y-1][x]==1 or li[y-1][x]==2:
+			if li[y-1][x]==1 or li[y-1][x]==2 or y-1<0:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y-1][x]=term
 		if vec == 1:
-			if li[y][x+1]==1 or li[y][x+1]==2:
+			if li[y][x+1]==1 or li[y][x+1]==2 or x+1>5:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y][x+1]=term
 		if vec == 2:
-			if li[y+1][x]==1 or li[y+1][x]==2:
+			if li[y+1][x]==1 or li[y+1][x]==2 or y+1>5:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y+1][x]=term
 		if vec == 3:
-			if li[y][x-1]==1 or li[y][x-1]==2:
+			if li[y][x-1]==1 or li[y][x-1]==2 or x-1<0:
 				turnagain=True
 				li[y][x]=term
 			else:
@@ -282,25 +282,25 @@ def deal(request):
 		term=li[y][x]
 		li[y][x]=0
 		if vec == 0:
-			if li[y+1][x]==3 or li[y+1][x]==4:
+			if li[y+1][x]==3 or li[y+1][x]==4 or y+1>5:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y+1][x]=term
 		if vec == 1:
-			if li[y][x-1]==3 or li[y][x-1]==4:
+			if li[y][x-1]==3 or li[y][x-1]==4 or x-1<0:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y][x-1]=term
 		if vec == 2:
-			if li[y-1][x]==3 or li[y-1][x]==4:
+			if li[y-1][x]==3 or li[y-1][x]==4 or y-1<0:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y-1][x]=term
 		if vec == 3:
-			if li[y][x+1]==3 or li[y][x+1]==4:
+			if li[y][x+1]==3 or li[y][x+1]==4 or x+1>5:
 				turnagain=True
 				li[y][x]=term
 			else:
