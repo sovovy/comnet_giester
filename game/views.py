@@ -201,14 +201,14 @@ def winLose(request): #승패결과처리
 def deal(request):
 	#game.html 으로부터 post받아옴
 	nickname = request.COOKIES['nick']
-	x = int(request.POST.get("xxx"))
-	y = int(request.POST.get("yyy"))
+	x = int(request.POST.get("x"))#@
+	y = int(request.POST.get("y"))#@
 	vec = int(request.POST.get("vec"))
 	pl = Player.objects.filter(po = nickname)
 	pl2 = Player.objects.filter(pt = nickname)
 	win1p = False
 	win2p = False
-
+	board =[]#@
 	# board 문자열을 리스트로 바꿔주기
 	if pl.exists():
 		user = pl[0]
