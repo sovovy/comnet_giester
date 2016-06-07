@@ -79,10 +79,7 @@ def setChk(request):
 				else:
 					pl_hand += '2'
 			pl.board = pl.board[:25] + pl_hand[:4] + pl.board[29:31] + pl_hand[4:] + pl.board[35]
-			if pl.turn == "01":
-				pl.turn = "1P"
-			else:
-				pl.turn = "10"
+			pl.s1 = '1'
 			pl.save()
 
 		elif pl2.exists():
@@ -93,10 +90,7 @@ def setChk(request):
 				else:
 					pl_hand += '4'
 			pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5:7] + pl_hand[:4][::-1] + pl2.board[11:]
-			if pl2.turn == "10":
-				pl2.turn = "1P"
-			else:
-				pl2.turn = "01"
+			pl2.s2 = '1'
 			pl2.save()
 		return HttpResponseRedirect('/wait')
 	else:
@@ -110,12 +104,16 @@ def wait(request):
 	if pl.exists():
 		whoami = "1P"
 		pl = pl[0]
-		if pl.turn == "1P":
+		if pl.s1 =='1' and pl.s2 =='1':
+			pl.turn = "1P"
+			pl.save()
 			return HttpResponseRedirect('/game')
 	elif pl2.exists():
 		whoami = "2P"
 		pl2 = pl2[0]
-		if pl2.turn == "1P":
+		if pl2.s1 =='1' and pl2.s2 =='1':
+			pl2.turn = "1P"
+			pl2.save()
 			return HttpResponseRedirect('/game')
 	# 둘다 셋팅 완료되었으면
 	# 1P가 선을 잡도록 turn을 "1P"로 셋팅한 뒤
