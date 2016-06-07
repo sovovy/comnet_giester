@@ -240,19 +240,11 @@ def deal(request):
 	if li[0][0]==1 or li[0][5]==1:
 		win1p=True
 		user.board="1Pwin"
-		if user.turn=="1P":
-			user.turn="2P"
-		else:
-			user.turn="1P"
 		user.save()
 		return HttpResponseRedirect('/game')
 	if li[5][0]==3 or li[5][5]==3:
 		win2p=True
 		user.board="2Pwin"
-		if user.turn=="1P":
-			user.turn="2P"
-		else:
-			user.turn="1P"
 		user.save()
 		return HttpResponseRedirect('/game')
 
