@@ -236,17 +236,25 @@ def deal(request):
 			li[i].append(int(board[i*6+j]))
 
 	# board에서 상대방 출구에 파란 말이면 승리판단
-	if pl.exists():
-		if li[0][0]==3 or li[0][5]==3:
-			win2p=True
-		if li[5][0]==1 or li[5][5]==1:
-			win1p=True
-
-	elif pl2.exists():
-		if li[0][0]==1 or li[0][5]==1:
-			win1p=True
-		if li[5][0]==3 or li[5][5]==3:
-			win2p=True
+	
+	if li[0][0]==1 or li[0][5]==1:
+		win1p=True
+		user.board="1Pwin"
+		if user.turn=="1P":
+			user.turn="2P"
+		else:
+			user.turn="1P"
+		user.save()
+		return HttpResponseRedirect('/game')
+	if li[5][0]==3 or li[5][5]==3:
+		win2p=True
+		user.board="2Pwin"
+		if user.turn=="1P":
+			user.turn="2P"
+		else:
+			user.turn="1P"
+		user.save()
+		return HttpResponseRedirect('/game')
 
 	# 패 이동
 	if pl.exists():
@@ -256,10 +264,16 @@ def deal(request):
 			if li[y-1][x]==1 or li[y-1][x]==2:
 				turnagain=True
 				li[y][x]=term
+			elif  y-1<0:
+				turnagain=True
+				li[y][x]=term
 			else:
 				li[y-1][x]=term
 		if vec == 1:
 			if li[y][x+1]==1 or li[y][x+1]==2:
+				turnagain=True
+				li[y][x]=term
+			elif x+1>5 :
 				turnagain=True
 				li[y][x]=term
 			else:
@@ -268,10 +282,16 @@ def deal(request):
 			if li[y+1][x]==1 or li[y+1][x]==2:
 				turnagain=True
 				li[y][x]=term
+			elif  y+1>5:
+				turnagain=True
+				li[y][x]=term
 			else:
 				li[y+1][x]=term
 		if vec == 3:
 			if li[y][x-1]==1 or li[y][x-1]==2:
+				turnagain=True
+				li[y][x]=term
+			elif  x-1<0:
 				turnagain=True
 				li[y][x]=term
 			else:
@@ -285,10 +305,16 @@ def deal(request):
 			if li[y+1][x]==3 or li[y+1][x]==4:
 				turnagain=True
 				li[y][x]=term
+			elif  y+1>5:
+				turnagain=True
+				li[y][x]=term
 			else:
 				li[y+1][x]=term
 		if vec == 1:
 			if li[y][x-1]==3 or li[y][x-1]==4:
+				turnagain=True
+				li[y][x]=term
+			elif  x-1<0:
 				turnagain=True
 				li[y][x]=term
 			else:
@@ -297,10 +323,16 @@ def deal(request):
 			if li[y-1][x]==3 or li[y-1][x]==4:
 				turnagain=True
 				li[y][x]=term
+			elif  y-1<0:
+				turnagain=True
+				li[y][x]=term
 			else:
 				li[y-1][x]=term
 		if vec == 3:
 			if li[y][x+1]==3 or li[y][x+1]==4:
+				turnagain=True
+				li[y][x]=term
+			elif  x+1>5:
 				turnagain=True
 				li[y][x]=term
 			else:
