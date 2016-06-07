@@ -29,20 +29,20 @@ def init(request):
 	return HttpResponseRedirect('/chkDB')
 
 def chkDB(request): # 게임을 시작할 수 있는 지
-   nickname = request.COOKIES['nick']
-   pl = Player.objects.filter(po = nickname)
-   pl2 = Player.objects.filter(pt = nickname)
-   if pl2.exists():
-      return HttpResponseRedirect('/set')
-   if pl.exists():
-      if pl[0].pt =='':
-         return HttpResponseRedirect('/rfsh')
-      else :
-         return HttpResponseRedirect('/set')
+	nickname = request.COOKIES['nick']
+	pl = Player.objects.filter(po = nickname)
+	pl2 = Player.objects.filter(pt = nickname)
+	if pl2.exists():
+		return HttpResponseRedirect('/set')
+	if pl.exists():
+		if pl[0].pt =='':
+			return HttpResponseRedirect('/rfsh')
+		else :
+			return HttpResponseRedirect('/set')
 
 def rfsh(request):
-   nickname = request.COOKIES['nick']
-   return render(request, 'game/rfsh.html')
+	nickname = request.COOKIES['nick']
+	return render(request, 'game/rfsh.html')
 
 def set(request):
 	nickname = request.COOKIES['nick']
@@ -57,126 +57,137 @@ def set(request):
 	return render(request, 'game/set.html', context)
 	
 def setChk(request):
-   nickname = request.COOKIES['nick']
-   hand = request.POST.get("hand") # 00001111 이런 포맷을 가지는 사용자의 패의 정보
-   w = False #패가 정상적인지
-   cnt=0
-   for i in hand:
-     if i == '1':
-        cnt += 1
-   if cnt==4:
-     w = True
+	nickname = request.COOKIES['nick']
+	hand = request.POST.get("hand") # 00001111 이런 포맷을 가지는 사용자의 패의 정보
+	w = False #패가 정상적인지
+	cnt=0
+	for i in hand:
+		if i == '1':
+			cnt += 1
+	if cnt==4:
+		w = True
 
-   pl = Player.objects.filter(po = nickname)
-   pl2 = Player.objects.filter(pt = nickname)
-   pl_hand = ""
-   if w == True:
-      if pl.exists():
-         pl = pl[0]
-         for i in range (0,8):
-            if hand[i]=='0':
-               pl_hand += '1'
-            else:
-               pl_hand += '2'
-         pl.board = pl.board[:25] + pl_hand[:4] + pl.board[29:31] + pl_hand[4:] + pl.board[35]
-         if pl.turn == "01":
-            pl.turn = "1P"
-         else:
-            pl.turn = "10"
-         pl.save()
+	pl = Player.objects.filter(po = nickname)
+	pl2 = Player.objects.filter(pt = nickname)
+	pl_hand = ""
+	if w == True:
+		if pl.exists():
+			pl = pl[0]
+			for i in range (0,8):
+				if hand[i]=='0':
+					pl_hand += '1'
+				else:
+					pl_hand += '2'
+			pl.board = pl.board[:25] + pl_hand[:4] + pl.board[29:31] + pl_hand[4:] + pl.board[35]
+			if pl.turn == "01":
+				pl.turn = "1P"
+			else:
+				pl.turn = "10"
+			pl.save()
 
-      elif pl2.exists():
-         pl2 = pl2[0]
-         for i in range (0,8):
-            if hand[i]=='0':
-               pl_hand += '3'
-            else:
-               pl_hand += '4'
-         pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5:7] + pl_hand[:4][::-1] + pl2.board[11:]
-         if pl2.turn == "10":
-            pl2.turn = "1P"
-         else:
-            pl2.turn = "01"
-         pl2.save()
-      return HttpResponseRedirect('/wait')
-   else:
-      return HttpResponseRedirect('/set')
+		elif pl2.exists():
+			pl2 = pl2[0]
+			for i in range (0,8):
+				if hand[i]=='0':
+					pl_hand += '3'
+				else:
+					pl_hand += '4'
+			pl2.board = pl2.board[0] + pl_hand[4:][::-1] + pl2.board[5:7] + pl_hand[:4][::-1] + pl2.board[11:]
+			if pl2.turn == "10":
+				pl2.turn = "1P"
+			else:
+				pl2.turn = "01"
+			pl2.save()
+		return HttpResponseRedirect('/wait')
+	else:
+		return HttpResponseRedirect('/set')
 
 def wait(request):
-   nickname = request.COOKIES['nick']
-   pl = Player.objects.filter(po = nickname)  # p1기준
-   pl2 = Player.objects.filter(pt = nickname) # p2기준
+	nickname = request.COOKIES['nick']
+	pl = Player.objects.filter(po = nickname)  # p1기준
+	pl2 = Player.objects.filter(pt = nickname) # p2기준
 
-   if pl.exists():
-      whoami = "1P"
-      pl = pl[0]
-      if pl.turn == "1P":
-         return HttpResponseRedirect('/game')
-   elif pl2.exists():
-      whoami = "2P"
-      pl2 = pl2[0]
-      if pl2.turn == "1P":
-         return HttpResponseRedirect('/game')
-   # 둘다 셋팅 완료되었으면
-   # 1P가 선을 잡도록 turn을 "1P"로 셋팅한 뒤
-   # /game으로 redirect
-   
-   context = {'whoami' : whoami}
-   return render(request, 'game/wait.html',context)
-   # 아직 하나라도 셋팅되어있지 않다면 whoami정보 넘겨주며 wait.html render
-   
+	if pl.exists():
+		whoami = "1P"
+		pl = pl[0]
+		if pl.turn == "1P":
+			return HttpResponseRedirect('/game')
+	elif pl2.exists():
+		whoami = "2P"
+		pl2 = pl2[0]
+		if pl2.turn == "1P":
+			return HttpResponseRedirect('/game')
+	# 둘다 셋팅 완료되었으면
+	# 1P가 선을 잡도록 turn을 "1P"로 셋팅한 뒤
+	# /game으로 redirect
+
+	context = {'whoami' : whoami}
+	return render(request, 'game/wait.html',context)
+	# 아직 하나라도 셋팅되어있지 않다면 whoami정보 넘겨주며 wait.html render
 
 def game(request):
-   nickname = request.COOKIES['nick']
-   pl = Player.objects.filter(po = nickname)  # p1기준
-   pl2 = Player.objects.filter(pt = nickname) # p2기준
-   whoami=''
-   turn=''
-   li=[]
-   if pl.exists(): # p1 기준
-      whoami = '1P'
-      if pl[0].board == "1Pwin" or pl[0].board == "2Pwin":
-         return HttpResponseRedirect('/winLose')
-      else:
-         board = pl[0].board
-         turn = pl[0].turn
-         for i in range(0,6):
-            li.append([])
-            for j in range(0,6):
-               li[i].append(int(board[i*6+j]))
-   elif pl2.exists(): # p2 기준
-      whoami = '2P'
-      if pl2[0].board == "2Pwin" or pl2[0].board == "1Pwin":
-         return HttpResponseRedirect('/winLose')
-      else:
-         board = pl2[0].board[::-1]
-         turn = pl2[0].turn
-         for i in range(0,6):
-            li.append([])
-            for j in range(0,6):
-               x = int(board[i*6+j])
-               if(x == 8):
-                  li[i].append(9)
-               elif(x == 9):
-                  li[i].append(8)
-               elif(x == 1):
-                  li[i].append(3)
-               elif(x == 2):
-                  li[i].append(4)
-               elif(x == 3):
-                  li[i].append(1)
-               elif(x == 4):
-                  li[i].append(2)
-               # 상대패는 뒤집고 보이는것도 다르게
-               else:
-                  li[i].append(x)
-   # 승리가 결정난 경우 winLose로 redirect
-   # 그렇지 않은 경우에는 턴 데이터를 설정하고
-   # 보드데이터를 읽어옴
-   # 그 읽어온 보드데이터를 6개씩 끊어서 'board'를 구성하고 프론트에 전달
-   context = {'whoami':whoami,'turn':turn,'board':li}
-   return render(request, 'game/game.html',context)
+	nickname = request.COOKIES['nick']
+	pl = Player.objects.filter(po = nickname)  # p1기준
+	pl2 = Player.objects.filter(pt = nickname) # p2기준
+	whoami=''
+	turn=''
+	li=[]
+	if pl.exists(): # p1 기준
+		whoami = '1P'
+		# 승리가 결정난 경우 winLose로 redirect
+		if pl[0].board == "1Pwin" or pl[0].board == "2Pwin":
+			return HttpResponseRedirect('/winLose')
+		else:
+		# 그렇지 않은 경우에는 턴 데이터를 설정하고
+		# 보드데이터를 읽어옴
+			board = pl[0].board
+			turn = pl[0].turn
+			for i in range(0,6):
+				li.append([])
+				for j in range(0,6):
+					li[i].append(int(board[i*6+j]))
+	elif pl2.exists(): # p2 기준
+		whoami = '2P'
+		# 승리가 결정난 경우 winLose로 redirect
+		if pl2[0].board == "2Pwin" or pl2[0].board == "1Pwin":
+			return HttpResponseRedirect('/winLose')
+		else:
+		# 그렇지 않은 경우에는 턴 데이터를 설정하고
+		# 보드데이터를 읽어옴
+			board = pl2[0].board[::-1]
+			turn = pl2[0].turn
+			for i in range(0,6):
+				li.append([])
+				for j in range(0,6):
+					x = int(board[i*6+j])
+					# 상대패는 뒤집고 보이는것도 다르게
+					if(x == 8):
+						li[i].append(9)
+					elif(x == 9):
+						li[i].append(8)
+					elif(x == 1):
+						li[i].append(3)
+					elif(x == 2):
+						li[i].append(4)
+					elif(x == 3):
+						li[i].append(1)
+					elif(x == 4):
+						li[i].append(2)
+					else:
+						li[i].append(x)
 
+	# 먹은 패 개수 세기
+	blueNum = 4
+	redNum = 4
+	for row in li:
+		for x in row:	# 적의 패의 개수를 뺀다
+			if x==3:
+				blueNum-=1
+			elif x==4:
+				redNum-=1
+
+	context = {'whoami':whoami,'turn':turn,'board':li, 'blueNum':range(blueNum), 'redNum':range(redNum)}
+	return render(request, 'game/game.html',context)
 
 def winLose(request): #승패결과처리
 	nickname = request.COOKIES['nick']
@@ -201,14 +212,14 @@ def winLose(request): #승패결과처리
 def deal(request):
 	#game.html 으로부터 post받아옴
 	nickname = request.COOKIES['nick']
-	x = int(request.POST.get("x"))#@
-	y = int(request.POST.get("y"))#@
+	x = int(request.POST.get("xxx"))
+	y = int(request.POST.get("yyy"))
 	vec = int(request.POST.get("vec"))
 	pl = Player.objects.filter(po = nickname)
 	pl2 = Player.objects.filter(pt = nickname)
 	win1p = False
 	win2p = False
-	board =[]#@
+
 	# board 문자열을 리스트로 바꿔주기
 	if pl.exists():
 		user = pl[0]
