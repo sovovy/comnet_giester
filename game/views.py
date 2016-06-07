@@ -217,6 +217,7 @@ def deal(request):
 	pl2 = Player.objects.filter(pt = nickname)
 	win1p = False
 	win2p = False
+	turnagain = False
 
 	# board 문자열을 리스트로 바꿔주기
 	if pl.exists():
@@ -252,26 +253,58 @@ def deal(request):
 		term=li[y][x]
 		li[y][x]=0
 		if vec == 0:
-			li[y-1][x]=term
+			if li[y-1][x]==1 or li[y-1][x]==2:
+				turnagain=True
+				li[y][x]=term
+			else:
+				li[y-1][x]=term
 		if vec == 1:
-			li[y][x+1]=term
+			if li[y][x+1]==1 or li[y][x+1]==2:
+				turnagain=True
+				li[y][x]=term
+			else:
+				li[y][x+1]=term
 		if vec == 2:
-			li[y+1][x]=term
+			if li[y+1][x]==1 or li[y+1][x]==2:
+				turnagain=True
+				li[y][x]=term
+			else:
+				li[y+1][x]=term
 		if vec == 3:
-			li[y][x-1]=term
+			if li[y][x-1]==1 or li[y][x-1]==2:
+				turnagain=True
+				li[y][x]=term
+			else:
+				li[y][x-1]=term
 	elif pl2.exists():
 		x = 5 - x;	#2P기준으로 x,y값을 고치고 2P기준으로 말을 옮긴다.
 		y = 5 - y;
 		term=li[y][x]
 		li[y][x]=0
 		if vec == 0:
-			li[y+1][x]=term
+			if li[y+1][x]==3 or li[y+1][x]==4:
+				turnagain=True
+				li[y][x]=term
+			else:
+				li[y+1][x]=term
 		if vec == 1:
-			li[y][x-1]=term
+			if li[y][x-1]==3 or li[y][x-1]==4:
+				turnagain=True
+				li[y][x]=term
+			else:
+				li[y][x-1]=term
 		if vec == 2:
-			li[y-1][x]=term
+			if li[y-1][x]==3 or li[y-1][x]==4:
+				turnagain=True
+				li[y][x]=term
+			else:
+				li[y-1][x]=term
 		if vec == 3:
-			li[y][x+1]=term
+			if li[y][x+1]==3 or li[y][x+1]==4:
+				turnagain=True
+				li[y][x]=term
+			else:
+				li[y][x+1]=term
 
 	# board 확인해서 1,2,3,4 숫자 카운트해서 승리판단
 	if not(win1p or win2p):
@@ -312,10 +345,13 @@ def deal(request):
 		user.board = string
 
 	# turn 수정
-	if user.turn=="1P":
-		user.turn="2P"
+	if turnagain:
+		user.turn==user.turn
 	else:
-		user.turn="1P"
+		if user.turn=="1P":
+			user.turn="2P"
+		else:
+			user.turn="1P"
 	user.save()
 
 	return HttpResponseRedirect('/game')
