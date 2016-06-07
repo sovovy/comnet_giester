@@ -2,9 +2,9 @@
 
 {% block title %}
 {% ifequal winLose "win" %}
-	승리!
+	승리
 {% else %}
-	패배!
+	패배
 {% endifequal %}
 {% endblock %}
 
@@ -21,15 +21,15 @@
 		<div id="rule" class="box"> <span class="mark">?</span> 게임 방법</div>
 	</div>
 	<div class="board atc" style='width: 40vw; height: 10vw; text-align: center;'>
-		<form action='wait' method='POST'>{% csrf_token %} 
-			<input id="check" src='./assets/refresh.png' type='image'>
-		</form>
+		{% ifequal winLose "win" %}
+			<div id="result">당신은 <span class="1P">승리</span>하였습니다!</div>
+		{% else %}
+			<div id="result">당신은 <span class="2P">패배</span>하였습니다..</div>
+		{% endifequal %}
+		<a href="./"><input id="toHome" type="button" value="다시하기"></a>
 	</div>
 	<div class="right atc">
-		<div id="turn" class="box">대기 중</div>
+		<div id="turn" class="box">종 료</div>
 	</div>
 </div>
-<!--게임 한판 더하기 만들어서 init로 redirect하자-->
-<!--혹은 방금했던 상대랑 서로 한판더하기 수락누르면 다시 연결?-->
-<!---너무 복잡하려나..-->
 {% endblock %}

@@ -198,28 +198,27 @@ def winLose(request): #승패결과처리
 	context = {'whoami' : whoami, 'winLose': wl}
 	return render(request, 'game/winLose.html',context)
 
-	# 승부 결과 처리
-def oneMore(request):	#한판 더 하기!
-	return HttpResponseRedirect('/init')
-
 def deal(request):
 	#game.html 으로부터 post받아옴
 	nickname = request.COOKIES['nick']
-	x = int(request.POST.get("x"))
-	y = int(request.POST.get("y"))
-	vec = request.POST.get("vec")
+	x = int(request.POST.get("xxx"))
+	y = int(request.POST.get("yyy"))
+	vec = int(request.POST.get("vec"))
 	pl = Player.objects.filter(po = nickname)
 	pl2 = Player.objects.filter(pt = nickname)
+	win1p = False
+	win2p = False
 
 	# board 문자열을 리스트로 바꿔주기
 	if pl.exists():
-		user = pl = pl[0]
-		board = pl.board
+		user = pl[0]
+		board = user.board
 		whoami="1P"
 	elif pl2.exists():
-		user = pl2 = pl2[0]
-		board = pl2.board 
+		user = pl2[0]
+		board = user.board 
 		whoami="2P"
+
 	li = []
 	for i in range(0,6):
 		li.append([])
@@ -227,10 +226,17 @@ def deal(request):
 			li[i].append(int(board[i*6+j]))
 
 	# board에서 상대방 출구에 파란 말이면 승리판단
-	if li[0][0]==1 or li[0][5]==1:
-		win1p=True
-	if li[5][0]==3 or li[5][5]==3:
-		win2p=True
+	if pl.exists():
+		if li[0][0]==3 or li[0][5]==3:
+			win2p=True
+		if li[5][0]==1 or li[5][5]==1:
+			win1p=True
+
+	elif pl2.exists():
+		if li[0][0]==1 or li[0][5]==1:
+			win1p=True
+		if li[5][0]==3 or li[5][5]==3:
+			win2p=True
 
 	# 패 이동
 	if pl.exists():
@@ -259,30 +265,29 @@ def deal(request):
 			li[y][x+1]=term
 
 	# board 확인해서 1,2,3,4 숫자 카운트해서 승리판단
-	win1p=False
-	win2p=False
-	count1 =0
-	count2 =0
-	count3 =0
-	count4 =0
-	for row in li:
-		for x in row:
-			if x==1:
-				count1 +=1
-			elif x==2:
-				count2 +=1
-			elif x==3:
-				count3 +=1
-			elif x==4:
-				count4 +=1
-	if count1 == 0:
-		win2p=True
-	if count2 == 0:
-		win1p=True
-	if count3 == 0:
-		win1p=True
-	if count4 == 0:
-		win2p=True
+	if not(win1p or win2p):
+		count1 =0
+		count2 =0
+		count3 =0
+		count4 =0
+		for row in li:
+			for x in row:
+				if x==1:
+					count1 +=1
+				elif x==2:
+					count2 +=1
+				elif x==3:
+					count3 +=1
+				elif x==4:
+					count4 +=1
+		if count1 == 0:
+			win2p=True
+		if count2 == 0:
+			win1p=True
+		if count3 == 0:
+			win1p=True
+		if count4 == 0:
+			win2p=True
 
 	# 승리 판단
 	if win1p:
