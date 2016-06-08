@@ -48,23 +48,21 @@
 </div>
 <script>
 	$(function(){
-		cnt = 0;
-		$('td div').on('click', function(){
-			if($(this).hasClass('blue')){
-				$(this).removeClass('blue');
-				$(this).addClass('red');
+		$('td div').on('click', function(){		// td(테이블 셀)안의 div태그(패)를 누르면
+			if($(this).hasClass('blue')){		// div의 class가 blue를 가지면
+				$(this).removeClass('blue');	// div의 class에서 blue를 제거하고
+				$(this).addClass('red');		// red를 추가한다.
 			}else{
-				$(this).removeClass('red');
-				$(this).addClass('blue');
+				$(this).removeClass('red');		// blue를 가지지 않으면 class에서 red를 제거하고
+				$(this).addClass('blue');		// blue를 추가한다.
 			}
-
-			index = $(this).attr('name');
-			pre = $('#hand').val();
-			res = pre.slice(0,index);
-			res += pre.charAt(index)==0?1:0;
-			res += pre.slice(++index);
-			$('#hand').val(res);
-			cnt++;
+			// 사용자의 패 정보 (11110000)을 변경하는 부분
+			index = $(this).attr('name');		// 클릭한 div태그의 name 속성 값을 가져온다.
+			pre = $('#hand').val();				// 바뀌기 전의 패 정보를 pre에 저장한다.
+			res = pre.slice(0,index);			// 결과 res에 pre의 0부터 index-1까지 잘라서 넣고
+			res += pre.charAt(index)==0?1:0;	// pre의 index번째 글자가 0이면 1을 1이면 0을 res에 이어 붙인다.
+			res += pre.slice(++index);			// res에 pre의 index+1부터를 이어 붙인다.
+			$('#hand').val(res);				// res를 input 태그의 value로 셋팅한다.
 		});
 	});
 </script>

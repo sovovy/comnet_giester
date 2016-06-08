@@ -77,50 +77,50 @@
 		{% endfor %}
 	</div>
 </div>
-{% if turn == whoami %}
+{% if turn == whoami %} <!-- 자신의 턴일 때 script -->
 	<script>
 		$(function(){
-			$('.my').on('click',function(){
-				var lf = $(this).offset().left;
-				var tp = $(this).offset().top;
-				var width = $(this).width();
+			$('.my').on('click',function(){			// 자신의 패를 클릭하면
+				var lf = $(this).offset().left;		// 패가 화면의 왼쪽으로부터 몇 px 떨어졌는지.
+				var tp = $(this).offset().top;		// 화면의 위로부터 몇 px 떨어졌는지.
+				var width = $(this).width();		// 패의 가로 px크기
 
-				$('#vec').val('');
-				$('#check').css('visibility','hidden');
-				$('.ar_top').css( {left: lf + ((width-30)/2) , top: tp-23} );
+				$('#vec').val('');					// 이전에 vec에 다른 값이 설정되어있을 수도 있으니 ''로 셋팅
+				$('#check').css('visibility','hidden');		// check 버튼을 숨긴다.
+				$('.ar_top').css( {left: lf + ((width-30)/2) , top: tp-23} );			// 네 방향 화살표 위치 셋팅
 				$('.ar_right').css( {left: lf+width+5 , top: tp + ((width-30)/2)} );
 				$('.ar_bottom').css( {left: lf + ((width-30)/2) , top: tp+width+5 } );
 				$('.ar_left').css( {left: lf -23 , top: tp + ((width-30)/2)} );
-				$('.arrow').css('visibility','visible');
+				$('.arrow').css('visibility','visible');		// 네 화살표 보이게 하기.
 
 				for(i=1; i<=6; i++){
 					for(j=1; j<=6; j++){
-						if($(this).is($('tr:nth-child('+i+') td:nth-child('+j+') div'))){
-							$('#x').val(j-1);
-							$('#y').val(i-1);
+						if($(this).is($('tr:nth-child('+i+') td:nth-child('+j+') div'))){	// 패가 tr(테이블 row)의 i번째 자식이고 td(테이블 셀)의 j번째 자식이면
+							$('#x').val(j-1);	// x value에 j-1
+							$('#y').val(i-1);	// y value에 i-1
 						}
 					}
 				}
 			});
 
-			$('.arrow').on('click',function(){
-				if($(this).hasClass('ar_top')){
-					$('#vec').val(0);
-				}else if($(this).hasClass('ar_right')){
+			$('.arrow').on('click',function(){			// 화살표가 눌리면
+				if($(this).hasClass('ar_top')){			// class에 ar_top(위쪽 화살표)가 있으면
+					$('#vec').val(0);					// vec의 value를 0으로
+				}else if($(this).hasClass('ar_right')){	// 이하 같은 맥락
 					$('#vec').val(1);
 				}else if($(this).hasClass('ar_bottom')){
 					$('#vec').val(2);
 				}else{
 					$('#vec').val(3);
 				}
-				$('#check').css('visibility','visible');
+				$('#check').css('visibility','visible');	// 체크 버튼을 보여준다.
 			});
 		});
 	</script>
 {% endif %}
 <script>
-	$("#rule").on('click', function() {
-		$("#how").slideToggle("fast");
+	$("#rule").on('click', function() {		// 사용 방법 박스를 누르면
+		$("#how").slideToggle("fast");		// id가 how인 태그(승리 조건 설명 부분)를 slide해서 보여주거나 닫는다.
 	});
 </script>
 {% endblock %}
