@@ -18,8 +18,8 @@ def init(request):
 		
 	players = Player.objects.all()
 	count = players.count()
-	players = players[count-1]
 	if count>0:
+		players = players[count-1]
 		if players.pt =='':
 			players.pt = nickname
 			players.save()
