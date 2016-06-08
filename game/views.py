@@ -252,6 +252,10 @@ def deal(request):
 	if pl.exists():
 		term=li[y][x]
 		li[y][x]=0
+		if y==5 and x==0:
+			li[y][x]= 9
+		if y==5 and x==5:
+			li[y][x]= 8
 		if vec == 0:
 			if y-1<0:
 				turnagain=True
@@ -294,6 +298,11 @@ def deal(request):
 		y = 5 - y;
 		term=li[y][x]
 		li[y][x]=0
+
+		if y==0 and x==0:
+			li[y][x]= 9
+		if y==0 and x==5:
+			li[y][x]= 8
 		if vec == 0:
 			if y+1>5:
 				turnagain=True
