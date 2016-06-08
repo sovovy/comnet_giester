@@ -253,25 +253,38 @@ def deal(request):
 		term=li[y][x]
 		li[y][x]=0
 		if vec == 0:
-			if li[y-1][x]==1 or li[y-1][x]==2 or y-1<0:
+			if y-1<0:
+				turnagain=True
+				li[y][x]=term
+			#이전과 같이 or로 묶어주면 리스트 바깥을 찾게되므로 오류가 난다.
+			elif li[y-1][x]==1 or li[y-1][x]==2:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y-1][x]=term
 		if vec == 1:
-			if li[y][x+1]==1 or li[y][x+1]==2 or x+1>5:
+			if x+1>5:
+				turnagain=True
+				li[y][x]=term
+			elif li[y][x+1]==1 or li[y][x+1]==2:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y][x+1]=term
 		if vec == 2:
-			if li[y+1][x]==1 or li[y+1][x]==2 or y+1>5:
+			if y+1>5:
+				turnagain=True
+				li[y][x]=term
+			elif li[y+1][x]==1 or li[y+1][x]==2:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y+1][x]=term
 		if vec == 3:
-			if li[y][x-1]==1 or li[y][x-1]==2 or x-1<0:
+			if x-1<0:
+				turnagain=True
+				li[y][x]=term
+			elif li[y][x-1]==1 or li[y][x-1]==2:
 				turnagain=True
 				li[y][x]=term
 			else:
@@ -282,25 +295,37 @@ def deal(request):
 		term=li[y][x]
 		li[y][x]=0
 		if vec == 0:
-			if li[y+1][x]==3 or li[y+1][x]==4 or y+1>5:
+			if y+1>5:
+				turnagain=True
+				li[y][x]=term
+			elif li[y+1][x]==3 or li[y+1][x]==4:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y+1][x]=term
 		if vec == 1:
-			if li[y][x-1]==3 or li[y][x-1]==4 or x-1<0:
+			if x-1<0:
+				turnagain=True
+				li[y][x]=term
+			elif li[y][x-1]==3 or li[y][x-1]==4:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y][x-1]=term
 		if vec == 2:
-			if li[y-1][x]==3 or li[y-1][x]==4 or y-1<0:
+			if y-1<0:
+				turnagain=True
+				li[y][x]=term
+			elif li[y-1][x]==3 or li[y-1][x]==4:
 				turnagain=True
 				li[y][x]=term
 			else:
 				li[y-1][x]=term
 		if vec == 3:
-			if li[y][x+1]==3 or li[y][x+1]==4 or x+1>5:
+			if x+1>5:
+				turnagain=True
+				li[y][x]=term
+			elif li[y][x+1]==3 or li[y][x+1]==4:
 				turnagain=True
 				li[y][x]=term
 			else:
