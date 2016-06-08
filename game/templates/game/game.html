@@ -14,7 +14,15 @@
 				<span class="2P">2P </span>입니다
 			{% endif %}
 		</div>
-		<div id="rule" class="box"> <span class="mark">?</span> 게임 방법</div>
+		<div id="rule" class="box">
+			<span class="mark">?</span> 게임 방법<br>
+			<div id="how" style="display: none;"><hr>
+				<span id="impo">승리 조건</span> <br>
+				1. 상대의 파란 말을 모두 잡는다.<br>
+				2. 나의 빨간 말을 모두 먹히게 한다.<br>
+				3. 나의 파란 말을 하나라도 반대편 출구로 보낸다.<br>
+			</div>
+		</div>
 	</div>
 	<div class="board atc">
 		<table>
@@ -110,4 +118,9 @@
 		});
 	</script>
 {% endif %}
+<script>
+	$("#rule").on('click', function() {
+		$("#how").slideToggle("fast");
+	});
+</script>
 {% endblock %}

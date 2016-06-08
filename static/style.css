@@ -53,28 +53,38 @@ input#nick{
 	background-color: RGBA(0,0,0,0.3);
 	border-radius: 10px;
 	color: white;
+	padding: 10px 10px;
 }
 #me{
 	font-size: 30pt;
 	width: 180px;
 	height: 120px;
-	padding: 5px 10px;
 	line-height: 60px;
 }
 #rule{
 	font-size: 25pt;
 	width: 180px;
-	height: 50px;
-	padding: 5px 10px;
+	height: auto;
 	margin-top: 50px;
 	text-align: center;
 	line-height: 50px;
+}
+#rule hr{
+	border-color: #444444;
+	border-style: solid;
+}
+#how{
+	font-size: 15pt;
+	font-weight: 500;
+}
+#impo{
+	font-weight: 700;
+	font-size: 20pt;
 }
 #turn{
 	font-size: 30pt;
 	width: 150px;
 	height: 50px;
-	padding: 5px 10px;
 	text-align: center;
 	line-height: 50px;
 }
